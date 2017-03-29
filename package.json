@@ -1,0 +1,40 @@
+{
+  "name": "djangoreact",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "django-port": 8000,
+    "webpack-port": 3000
+  },
+  "scripts": {
+    "django-dev": "python manage.py runserver localhost:$npm_package_config_django_port",
+    "webpack-dev": "webpack-dev-server --config webpack/dev.config.babel.js --progress --hot --port $npm_package_config_webpack_port",
+    "build": "webpack --config webpack/prod.config.babel.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-register": "^6.23.0",
+    "css-loader": "^0.26.4",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.10.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "style-loader": "^0.13.1",
+    "webpack-bundle-tracker": "^0.2.0",
+    "webpack-dev-server": "^2.4.1"
+  }
+}

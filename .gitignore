@@ -5,8 +5,11 @@ ThumbsDB
 \#*#
 .#*
 *.pyc
-**/node_modules
-.idea
-venv
+/node_modules/
+/.idea/
+environment.cfg
+/venv/
 db.sqlite3
-djangoapps/djangoreact/settings/local.py
+webpack-stats.json
+npm-debug.log
+/build/

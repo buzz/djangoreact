@@ -1,4 +1,5 @@
 {% load static wagtailuserbar %}
+{% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -21,24 +22,21 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/djangoreact.css' %}">
-
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+        {% render_bundle 'bundle' 'css' %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
+        <div id="react-app"></div>
         {% block content %}{% endblock %}
-
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/djangoreact.js' %}"></script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
         {% endblock %}
+        {% render_bundle 'bundle' 'js' %}
     </body>
 </html>
