@@ -1,4 +1,5 @@
 import path from 'path'
+import webpack from 'webpack'
 import BundleTracker from 'webpack-bundle-tracker'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
@@ -6,7 +7,7 @@ const base = path.resolve('.')
 
 export default {
     entry: {
-         bundle: path.join(base, 'assets', 'js', 'index'),
+        bundle: path.join(base, 'assets', 'js', 'index'),
     },
     module: {
         rules: [
@@ -20,7 +21,7 @@ export default {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                use: 'babel-loader',
+                use: ['react-hot-loader', 'babel-loader'],
             },
             {
                 test: /\.(gif|png|eot|svg|woff2?|ttf)$/,
@@ -30,6 +31,8 @@ export default {
     },
     plugins: [
         new ExtractTextPlugin('bundle.css'),
+        new webpack.NoEmitOnErrorsPlugin(), // don't reload if there is an error
+        new webpack.NamedModulesPlugin(),
         new BundleTracker({
             filename: 'webpack-stats.json',
         }),
