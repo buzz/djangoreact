@@ -9,4 +9,4 @@ ThumbsDB
 .idea
 venv
 db.sqlite3
-djangoreact/settings/local.py
+djangoapps/djangoreact/settings/local.py

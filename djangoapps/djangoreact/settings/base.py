@@ -16,7 +16,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+BASE_DIR = os.path.join(os.path.dirname(PROJECT_DIR), '..')
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,8 +26,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    'home',
-    'search',
+    'djangoapps.home',
+    'djangoapps.search',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -67,7 +67,7 @@ MIDDLEWARE = [
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
 
-ROOT_URLCONF = 'djangoreact.urls'
+ROOT_URLCONF = 'djangoapps.djangoreact.urls'
 
 TEMPLATES = [
     {
@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangoreact.wsgi.application'
+WSGI_APPLICATION = 'djangoapps.djangoreact.wsgi.application'
 
 
 # Database
