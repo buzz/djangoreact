@@ -12,7 +12,7 @@ env.read_env(os.path.join(PROJECT_DIR, 'environment.cfg'))
 DEBUG = env.bool('DEBUG', False)
 
 INSTALLED_APPS = [
-    'djangoapps.home',
+    'djangoapps.pages',
     'djangoapps.search',
 
     'wagtail.wagtailforms',

@@ -10,6 +10,7 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from djangoapps.search import views as search_views
 from .api import api_router
 
+
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
@@ -20,16 +21,8 @@ urlpatterns = [
 
     url(r'^api/v2/', api_router.urls),
 
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's page serving mechanism. This should be the last pattern in
-    # the list:
     url(r'', include(wagtail_urls)),
-
-    # Alternatively, if you want Wagtail pages to be served from a subpath
-    # of your site, rather than the site root:
-    #    url(r'^pages/', include(wagtail_urls)),
 ]
-
 
 if settings.DEBUG:
     from django.conf.urls.static import static
