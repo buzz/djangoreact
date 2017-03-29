@@ -23,19 +23,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
         {% endblock %}
         {% render_bundle 'bundle' 'css' %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body">
         {% wagtailuserbar %}
 
-        <div id="react-app"></div>
-        {% block content %}{% endblock %}
+        {% block content %}
+            <div id="react-app"></div>
+        {% endblock %}
 
         {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
         {% endblock %}
         {% render_bundle 'bundle' 'js' %}
     </body>
