@@ -16,8 +16,6 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
     url(r'^search/$', search_views.search, name='search'),
-    # page id resolver
-    url(r'^api/v2/resolve/$', api_router.resolve_page_id, name='resolve_page_id'),
     url(r'^api/v2/', api_router.urls),
     url(r'', include(wagtail_urls)),
 ]
