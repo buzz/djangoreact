@@ -10,7 +10,7 @@
   "scripts": {
     "django-dev": "python manage.py runserver localhost:$npm_package_config_django_port",
     "webpack-dev": "webpack-dev-server --config webpack/dev.config.babel.js --hot --inline --watch-content-base --watch --port $npm_package_config_webpack_port",
-    "build": "webpack --config webpack/prod.config.babel.js"
+    "build": "webpack -p --config webpack/prod.config.babel.js"
   },
   "repository": {
     "type": "git",

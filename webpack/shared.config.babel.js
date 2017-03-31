@@ -3,6 +3,7 @@ import webpack from 'webpack'
 import BundleTracker from 'webpack-bundle-tracker'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
+
 const base = path.resolve('.')
 
 export default {

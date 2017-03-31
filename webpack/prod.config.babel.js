@@ -1,6 +1,7 @@
 import path from 'path';
 import shared from './shared.config.babel.js';
 
+
 const base = path.resolve('.')
 
 export default {
