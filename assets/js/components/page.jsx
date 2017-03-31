@@ -1,9 +1,9 @@
 import React from 'react'
-import connect from 'react-redux'
+import { connect } from 'react-redux'
 import rest from 'js/rest'
 
 
-export default class Page extends React.Component {
+class Page extends React.Component {
     componentDidMount() {
         this.props.dispatch(rest.actions.page.sync({ path: this.props.path }))
     }
@@ -41,3 +41,6 @@ export default class Page extends React.Component {
         )
     }
 }
+
+const select = s => { return { page: s.page } }
+export default connect(select)(Page)

@@ -1,7 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import rest from 'js/rest'
 
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
+    componentDidMount() {
+        // this.props.dispatch(rest.actions.nav.sync())
+    }
+
     render() {
         return (
             <nav className="navbar sticky-top navbar-toggleable-sm navbar-inverse bg-inverse">
@@ -15,14 +22,14 @@ export default class NavBar extends React.Component {
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" href="/">django-react</a>
+                    <NavLink className="navbar-brand" to="/">django-react</NavLink>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/">Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/nice-about-page/">About</a>
+                                <NavLink className="nav-link" to="/nice-about-page/">About</NavLink>
                             </li>
                         </ul>
                     </div>
@@ -31,3 +38,6 @@ export default class NavBar extends React.Component {
         )
     }
 }
+
+const select = s => { return { nav: s.nav } }
+export default connect(select)(NavBar)

@@ -6,6 +6,7 @@ import 'isomorphic-fetch'
 const URL = '/api/v2'
 
 export default reduxApi({
+    nav: `${URL}/nav/`,
     page: {
         url: `${URL}/resolve/?path=:path`,
         transformer(data) {

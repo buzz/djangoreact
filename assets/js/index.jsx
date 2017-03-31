@@ -24,7 +24,7 @@ const history = createBrowserHistory()
 ReactDOM.render((
     <Provider store={store}>
         <Router history={history}>
-            <Route path="*" component={App} />
+            <Route path="(.+)" component={App} />
         </Router>
     </Provider>
 ), document.getElementById('djangoreact-app'))
