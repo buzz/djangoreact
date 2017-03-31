@@ -1,19 +1,19 @@
 from wagtail.api.v2.endpoints import PagesAPIEndpoint
 from wagtail.api.v2.router import WagtailAPIRouter
-from wagtail.wagtailcore.models import Page
+
+from djangoapps.djangoreact.serializers import ReactPageSerializer
+from djangoapps.pages.models import HomePage
 
 
 class ReactPagesAPIEndpoint(PagesAPIEndpoint):
-    meta_fields = [
-        'detail_url',
-        'html_url',
-        'slug',
-        'parent',
+    base_serializer_class = ReactPageSerializer
+    model = HomePage
+    listing_default_fields = PagesAPIEndpoint.listing_default_fields + [
+        'body',
     ]
 
 
 class PageResolverAPIEndpoint(ReactPagesAPIEndpoint):
-    filter_backends = []
     known_query_parameters = ReactPagesAPIEndpoint.known_query_parameters.union(
         ['path']
     )
@@ -29,7 +29,7 @@ class PageResolverAPIEndpoint(ReactPagesAPIEndpoint):
         return page
 
     def get_queryset(self):
-        queryset = Page.objects.filter(id=self._get_page().id)
+        queryset = self.model.objects.filter(id=self._get_page().id)
         queryset = queryset.public().live()
         return queryset
 

@@ -12,4 +12,5 @@ environment.cfg
 db.sqlite3
 webpack-stats.json
 npm-debug.log
+/media/
 /build/

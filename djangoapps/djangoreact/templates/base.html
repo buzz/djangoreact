@@ -1,6 +1,5 @@
 {% load static wagtailuserbar %}
 {% load render_bundle from webpack_loader %}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,11 +23,11 @@
         {% render_bundle 'bundle' 'css' %}
     </head>
 
-    <body">
+    <body>
         {% wagtailuserbar %}
 
         {% block content %}
-            <div id="react-app"></div>
+            <div id="djangoreact-app"></div>
         {% endblock %}
 
         {% block extra_js %}
