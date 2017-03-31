@@ -7,19 +7,24 @@ export default class App extends React.Component {
     componentDidMount() {
         this.props.dispatch(rest.actions.page.sync())
     }
+
     render() {
         let title, body
         try {
-            console.log(this.props.page.data)
-            title = this.props.page.data.items[0].title
-            body = this.props.page.data.items[0].body
+            const d = this.props.page.data
+            title = d.title
+            body = d.body
         } catch (e) {
+            if (!e instanceof TypeError)
+                throw(e)
             title = ''
             body = ''
         }
+
         function createMarkup() {
             return { __html: body }
         }
+
         return (
             <div className="container">
                 <h1>{title}</h1>

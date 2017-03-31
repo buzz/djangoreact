@@ -6,7 +6,7 @@ const djangoPort = process.env.npm_package_config_django_port
 
 export default {
     ...shared,
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     output: {
         filename: '[name].js',
         path: path.join(base, 'assets', 'dev-bundles'),
