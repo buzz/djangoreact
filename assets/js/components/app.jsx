@@ -11,9 +11,9 @@ const CPage = selectPage(Page)
 export default class App extends React.Component {
     render() {
         return (
-            <div>
+            <div id="main-wrapper">
                 <NavBar/>
-                <CPage/>
+                <CPage path={this.props.location.pathname}/>
             </div>
         )
     }

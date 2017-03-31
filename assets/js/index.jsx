@@ -7,7 +7,6 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import 'isomorphic-fetch'
 
 import App from 'js/components/app'
 import rest from 'js/rest'
@@ -25,7 +24,7 @@ const history = createBrowserHistory()
 ReactDOM.render((
     <Provider store={store}>
         <Router history={history}>
-            <Route path="*" component={App}/>
+            <Route path="*" component={App} />
         </Router>
     </Provider>
 ), document.getElementById('djangoreact-app'))

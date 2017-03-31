@@ -3,9 +3,9 @@ import connect from 'react-redux'
 import rest from 'js/rest'
 
 
-export default class App extends React.Component {
+export default class Page extends React.Component {
     componentDidMount() {
-        this.props.dispatch(rest.actions.page.sync())
+        this.props.dispatch(rest.actions.page.sync({ path: this.props.path }))
     }
 
     render() {
@@ -26,7 +26,7 @@ export default class App extends React.Component {
         }
 
         return (
-            <div className="container">
+            <div className="page-content container">
                 <div className="row">
                     <div className="col">
                         <h1>{title}</h1>

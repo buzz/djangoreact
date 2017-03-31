@@ -1,5 +1,6 @@
 import reduxApi from 'redux-api'
 import adapterFetch from 'redux-api/lib/adapters/fetch'
+import 'isomorphic-fetch'
 
 
 const URL = '/api/v2'
