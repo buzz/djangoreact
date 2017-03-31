@@ -12,6 +12,7 @@ export default {
             'jquery/src/core',
             'tether/dist/js/tether',
             'bootstrap/scss/bootstrap',
+            'bootstrap/dist/js/bootstrap',
             'sass/index',
             'js/index',
         ]
@@ -19,8 +20,13 @@ export default {
     module: {
         rules: [
             {
-              test: /bootstrap\/dist\/js\/umd\//,
-              use: 'imports-loader?jQuery=jquery'
+                test: /bootstrap\/dist\/js\//,
+                use: {
+                    loader: 'imports-loader',
+                    options: {
+                        jQuery: 'jquery',
+                    },
+                },
             },
             {
                 test: /\.(scss|sass)$/,
@@ -72,6 +78,7 @@ export default {
         new webpack.ProvidePlugin({
           Tether: 'tether',
           'window.Tether': 'tether',
+          jQuery: 'jQuery',
           '$': 'jQuery',
           'window.jQuery': 'jQuery',
         }),
