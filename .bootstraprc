@@ -1,0 +1,7 @@
+bootstrapVersion: 4
+useFlexbox: true
+extractStyles: true
+styleLoaders:
+  - css-loader
+  - postcss-loader
+  - sass-loader

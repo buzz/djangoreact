@@ -7,16 +7,46 @@ const base = path.resolve('.')
 
 export default {
     entry: {
-        bundle: path.join(base, 'assets', 'js', 'index'),
+        'bundle': [
+            'jquery/src/core',
+            'tether/dist/js/tether',
+            'bootstrap/scss/bootstrap',
+            'sass/index',
+            'js/index',
+        ]
     },
     module: {
         rules: [
             {
-                test: /\.css$/,
+              test: /bootstrap\/dist\/js\/umd\//,
+              use: 'imports-loader?jQuery=jquery'
+            },
+            {
+                test: /\.(scss|sass)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: 'css-loader',
-                })
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                importLoaders: 2,
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                sourceMap: 'inline',
+                            },
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true,
+                            },
+                        },
+                    ],
+                }),
             },
             {
                 test: /\.jsx$/,
@@ -33,8 +63,16 @@ export default {
         new ExtractTextPlugin('bundle.css'),
         new webpack.NoEmitOnErrorsPlugin(), // don't reload if there is an error
         new webpack.NamedModulesPlugin(),
+        // for django-webpack-loader
         new BundleTracker({
             filename: 'webpack-stats.json',
+        }),
+        // BS4 needs this
+        new webpack.ProvidePlugin({
+          Tether: 'tether',
+          'window.Tether': 'tether',
+          '$': 'jQuery',
+          'window.jQuery': 'jQuery',
         }),
     ],
     resolve: {
@@ -48,6 +86,8 @@ export default {
             '.html',
             '.css',
             '.gif',
-        ]
+            '.scss',
+            '.sass',
+        ],
     },
 }

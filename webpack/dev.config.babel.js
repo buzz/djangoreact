@@ -9,7 +9,6 @@ export default {
     devtool: 'inline-source-map',
     output: {
         filename: '[name].js',
-        path: path.join(base, 'assets', 'dev-bundles'),
         publicPath: 'http://localhost:3000/webpack-bundle/',
     },
     devServer: {

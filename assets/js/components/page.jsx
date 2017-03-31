@@ -27,8 +27,16 @@ export default class App extends React.Component {
 
         return (
             <div className="container">
-                <h1>{title}</h1>
-                <div dangerouslySetInnerHTML={createMarkup()} />
+                <div className="row">
+                    <div className="col">
+                        <h1>{title}</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <div dangerouslySetInnerHTML={createMarkup()} />
+                    </div>
+                </div>
             </div>
         )
     }

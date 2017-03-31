@@ -9,7 +9,7 @@
   },
   "scripts": {
     "django-dev": "python manage.py runserver localhost:$npm_package_config_django_port",
-    "webpack-dev": "webpack-dev-server --config webpack/dev.config.babel.js --hot --port $npm_package_config_webpack_port",
+    "webpack-dev": "webpack-dev-server --config webpack/dev.config.babel.js --hot --inline --watch-content-base --watch --port $npm_package_config_webpack_port",
     "build": "webpack --config webpack/prod.config.babel.js"
   },
   "repository": {
@@ -19,16 +19,28 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "autoprefixer": "^6.7.7",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.4.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.23.0",
+    "bootstrap": "^4.0.0-alpha.6",
     "css-loader": "^0.26.4",
+    "exports-loader": "^0.6.4",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
+    "imports-loader": "^0.7.1",
+    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
+    "node-sass": "^4.5.2",
+    "postcss": "^5.2.16",
+    "postcss-apply": "^0.6.1",
+    "postcss-cssnext": "^2.10.0",
+    "postcss-loader": "^1.3.3",
+    "postcss-responsive-type": "^0.5.1",
+    "postcss-smart-import": "^0.6.10",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
@@ -36,11 +48,15 @@
     "redux": "^3.6.0",
     "redux-api": "^0.10.3",
     "redux-thunk": "^2.2.0",
+    "resolve-url-loader": "^2.0.2",
+    "sass-loader": "^6.0.3",
+    "tether": "^1.4.0",
+    "url-loader": "^0.5.8",
     "webpack": "^2.2.1"
   },
   "devDependencies": {
     "react-hot-loader": "^1.3.1",
-    "style-loader": "^0.13.1",
+    "style-loader": "^0.13.2",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^2.4.1"
   }
