@@ -6,7 +6,7 @@ import 'isomorphic-fetch'
 const URL = '/api/v2'
 
 const api = reduxApi({
-    nav: `${URL}/nav/`,
+    pages: `${URL}/pages/`,
     page: `${URL}/pages/:id/`,
 })
 

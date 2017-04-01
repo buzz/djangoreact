@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router-dom'
 import rest from 'js/rest'
 
 
 export default class NavBar extends React.Component {
+    static propTypes = {
+        pages: PropTypes.object.isRequired,
+    }
+
     render() {
-        const nav = this.props.items
         let items = []
-        if (nav) {
-            items = nav.map(item => (
+        if (this.props.pages.sync) {
+            items = this.props.pages.data.items.map(item => (
                 <li key={item.id} className="nav-item">
-                    <Link className="nav-link" to={item.url_path}>{item.title}</Link>
+                    <Link className="nav-link" to={item.meta.url_path}>{item.title}</Link>
                 </li>
             ))
         }
@@ -20,14 +23,16 @@ export default class NavBar extends React.Component {
                     <button className="navbar-toggler navbar-toggler-right"
                             type="button"
                             data-toggle="collapse"
-                            data-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent"
+                            data-target="#navbar-menu"
+                            aria-controls="navbar-menu"
                             aria-expanded="false"
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <Link className="navbar-brand" to="/">django-<span className="react">react</span></Link>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <Link className="navbar-brand" to="/">
+                        django-<span className="react">react</span>
+                    </Link>
+                    <div className="collapse navbar-collapse" id="navbar-menu">
                         <ul className="navbar-nav mr-auto">
                             {items}
                         </ul>

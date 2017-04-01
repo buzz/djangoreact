@@ -21,7 +21,7 @@ observe(
     state => state.routing.locationBeforeTransitions.pathname,
     (store, prevPath, path) => {
         const state = store.getState()
-        const page_id = getPageIdFromPath(state.nav.data.menuitems, path)
+        const page_id = getPageIdFromPath(state.pages.data.items, path)
         store.dispatch(rest.actions.page.reset()) // need this to work
         store.dispatch(rest.actions.page.sync({id: page_id}))
     }
