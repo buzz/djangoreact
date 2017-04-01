@@ -9,6 +9,7 @@ export default class NavBar extends React.Component {
     }
 
     render() {
+        // TODO: build a proper tree-like nav from pages
         let items = []
         if (this.props.pages.sync) {
             items = this.props.pages.data.items.map(item => (
@@ -30,7 +31,7 @@ export default class NavBar extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <Link className="navbar-brand" to="/">
-                        django-<span className="react">react</span>
+                        wagtail-<span className="react">react</span>
                     </Link>
                     <div className="collapse navbar-collapse" id="navbar-menu">
                         <ul className="navbar-nav mr-auto">

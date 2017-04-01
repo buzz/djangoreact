@@ -11,6 +11,7 @@ const reducer = combineReducers({
     routing: routerReducer,
 })
 
+// TODO: make the server render initial page and persist $REDUX_STATE
 const myCreateStore = applyMiddleware(thunk)(createStore)
 const state = window.$REDUX_STATE
 const store = myCreateStore(reducer, state, devToolsEnhancer())

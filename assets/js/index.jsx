@@ -30,7 +30,7 @@ observe(
 ReactDOM.render((
     <Provider store={store}>
         <Router history={history}>
-            <Route component={App} />
+            <Route component={App}/>
         </Router>
     </Provider>
 ), document.getElementById('djangoreact-app'))

@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
 
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -104,7 +103,7 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'assets'),
+    os.path.join(PROJECT_DIR, 'build'),
 ]
 
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'assets-collected')
@@ -115,7 +114,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "djangoreact"
+WAGTAIL_SITE_NAME = "wagtailreact"
 
 BASE_URL = 'http://example.com'
 
