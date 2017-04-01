@@ -1,13 +1,29 @@
 @import '~bootstrap/scss/bootstrap'
 
-.navbar-brand
-    color: #ccc !important
+$caret-width: 0.4rem
 
-    .react
-        color: $gray-lightest
+.navbar
+    .navbar-brand
+        color: #ccc !important
+
+        .react
+            color: $gray-lightest
+
+    .nav-item.dropdown > .nav-link
+        display: inline-block
+
+    .dropdown-toggle
+      &::after
+        margin-left: 0
+        border-top: $caret-width solid
+        border-right: $caret-width solid transparent
+        border-left: $caret-width solid transparent
 
 .page-content
     @extend .py-5
+
+    .rich-text img
+        @extend .img-fluid
 
     .richtext-image
         @extend .mb-3, .img-fluid

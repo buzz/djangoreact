@@ -30,16 +30,17 @@ class App extends React.Component {
         if (!this.props.pages.sync) {
             dispatch(rest.actions.pages.sync(function(_, pages) {
                 const id = getPageIdFromPath(pages.items, path)
-                dispatch(rest.actions.page.sync({id: id}))
+                dispatch(rest.actions.page.sync({ id: id }))
             }))
         }
     }
 
     render() {
+        const path = this.props.location.pathname
         const pages = _.isUndefined(this.props.pages) ? {} : this.props.pages
         return (
             <div id="main-wrapper">
-                <NavBar pages={pages}/>
+                <NavBar path={path} pages={pages}/>
                 <Page page={this.props.page}/>
             </div>
         )
