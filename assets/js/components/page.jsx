@@ -1,46 +1,49 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import rest from 'js/rest'
 
 
-class Page extends React.Component {
-    componentDidMount() {
-        this.props.dispatch(rest.actions.page.sync({ path: this.props.path }))
+export default class Page extends React.Component {
+    static propTypes = {
+        page: PropTypes.object.isRequired,
     }
 
     render() {
-        let title, body
-        try {
-            const d = this.props.page.data
-            title = d.title
-            body = d.body
-        } catch (e) {
-            if (!e instanceof TypeError)
-                throw(e)
-            title = ''
-            body = ''
-        }
+        let inner = ''
+        if (this.props.page.sync) {
+            let title, body
+            try {
+                const d = this.props.page.data
+                title = d.title
+                body = d.body
+            } catch (e) {
+                if (!e instanceof TypeError)
+                    throw(e)
+                title = ''
+                body = ''
+            }
 
-        function createMarkup() {
-            return { __html: body }
-        }
+            const createMarkup = () => ({ __html: body })
 
+            inner = (
+                <div>
+                    <div className="row">
+                        <div className="col">
+                            <h1>{title}</h1>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <div dangerouslySetInnerHTML={createMarkup()} />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        else {
+            inner = <p>Loading…</p>
+        }
         return (
-            <div className="page-content container">
-                <div className="row">
-                    <div className="col">
-                        <h1>{title}</h1>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <div dangerouslySetInnerHTML={createMarkup()} />
-                    </div>
-                </div>
-            </div>
+            <div className="page-content container">{inner}</div>
         )
     }
 }
-
-const select = s => { return { page: s.page } }
-export default connect(select)(Page)

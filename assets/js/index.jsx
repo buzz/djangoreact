@@ -2,29 +2,35 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { Router, Route } from 'react-router'
-import createBrowserHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createBrowserHistory'
 
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import { syncHistoryWithStore } from 'react-router-redux'
 
-import App from 'js/components/app'
+import App, { getPageIdFromPath } from 'js/components/app'
 import rest from 'js/rest'
+import store from 'js/store'
+import observe from 'js/observe'
 
-// Prepare store
-const reducer = combineReducers(rest.reducers)
-const finalCreateStore = applyMiddleware(thunk)(createStore)
-const initialState = window.$REDUX_STATE
-const store = initialState ? finalCreateStore(reducer, initialState) : finalCreateStore(reducer)
-delete window.$REDUX_STATE
+// Create an enhanced history that syncs navigation events with the store
+const history = syncHistoryWithStore(createHistory(), store)
 
-
-const history = createBrowserHistory()
+// TODO: use action to trigger sync instead of manually listening?
+observe(
+    store,
+    state => state.routing.locationBeforeTransitions.pathname,
+    (store, prevPath, path) => {
+        const state = store.getState()
+        const page_id = getPageIdFromPath(state.nav.data.menuitems, path)
+        store.dispatch(rest.actions.page.reset()) // need this to work
+        store.dispatch(rest.actions.page.sync({id: page_id}))
+    }
+)
 
 ReactDOM.render((
     <Provider store={store}>
         <Router history={history}>
-            <Route path="(.+)" component={App} />
+            <Route component={App} />
         </Router>
     </Provider>
 ), document.getElementById('djangoreact-app'))

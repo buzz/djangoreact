@@ -1,13 +1,12 @@
-import path from 'path';
-import shared from './shared.config.babel.js';
+import path from 'path'
+import config from './shared.config.babel.js'
 
 
 const base = path.resolve('.')
 
-export default {
-    ...shared,
-    output: {
-        filename: '[name].js',
-        path: path.join(base, 'build'),
-    },
+config.output = {
+    filename: '[name].js',
+    path: path.join(base, 'build'),
 }
+
+export default config

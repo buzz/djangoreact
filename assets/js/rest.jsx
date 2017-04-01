@@ -5,19 +5,9 @@ import 'isomorphic-fetch'
 
 const URL = '/api/v2'
 
-export default reduxApi({
+const api = reduxApi({
     nav: `${URL}/nav/`,
-    page: {
-        url: `${URL}/resolve/?path=:path`,
-        transformer(data) {
-            try {
-                return data.items[0]
-            }
-            catch (e) {
-                if (!e instanceof TypeError)
-                    throw(e)
-            }
-            return null
-        }
-    }
-}).use('fetch', adapterFetch(fetch))
+    page: `${URL}/pages/:id/`,
+})
+
+export default api.use('fetch', adapterFetch(fetch))
