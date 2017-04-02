@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { FadeSwapper } from 'js/components/animation'
+import ReactCSSTransitionReplace from 'react-css-transition-replace'
 
 
 export default class Page extends React.Component {
@@ -9,7 +9,7 @@ export default class Page extends React.Component {
     }
 
     render() {
-        let inner = '', pageId = -1
+        let inner = '', pageId = parseInt(Math.random () * 1000000)
         if (this.props.page.sync) {
             let title, body
             try {
@@ -42,9 +42,11 @@ export default class Page extends React.Component {
             )
         }
         return (
-            <FadeSwapper transitionName="page-fade" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
+            <ReactCSSTransitionReplace transitionName="page-fade"
+                                       transitionEnterTimeout={4000}
+                                       transitionLeaveTimeout={2000}>
                 <div key={pageId} className="page-content container">{inner}</div>
-            </FadeSwapper>
+            </ReactCSSTransitionReplace>
         )
     }
 }

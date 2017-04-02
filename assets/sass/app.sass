@@ -1,25 +1,7 @@
-.page-fade-leave
-  opacity: 1
-
-.page-fade-leave.page-fade-leave-active
-  opacity: 0
-  transition: opacity 1s ease-in
-
-.page-fade-enter
-  opacity: 0
-
-.page-fade-enter.page-fade-enter-active
-  opacity: 1
-  transition: opacity 1s ease-in
-
-.page-fade-height
-  transition: height .5s ease-in-out
-
-
 .dropdown
     .dropdown-menu
         margin-top: 0
-        animation-name: slidenavAnimation
+        animation-name: dropdown-fade
         animation-duration: $duration
         animation-timing-function: $timing-function
 
@@ -29,23 +11,8 @@
     &:hover .dropdown-menu
         display: block
 
-@keyframes slidenavAnimation
-  from
-    opacity: 0
-  to
-    opacity: 1
-
-.page-fade-content
-    @extend .py-5
-
-    .rich-text img
-        @extend .img-fluid
-
-    .richtext-image
-        @extend .mb-3, .img-fluid
-
-        &.left
-            @extend .float-left, .mr-5
-
-        &.right
-            @extend .float-right, .ml-5
+    @keyframes dropdown-fade
+        from
+            opacity: 0
+        to
+            opacity: 1

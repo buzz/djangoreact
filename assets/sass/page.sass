@@ -1,0 +1,37 @@
+$fade-duration: 4s
+
+.page-fade-leave
+  opacity: 1
+
+.page-fade-leave.page-fade-leave-active
+  opacity: 0
+  transition: opacity $fade-duration ease-in
+
+.page-fade-enter
+  opacity: 0
+
+.page-fade-enter.page-fade-enter-active
+  opacity: 0
+  /* Delay the enter animation until the leave completes */
+  transition: opacity $fade-duration ease-out
+
+.page-fade-height
+  transition: height ($fade-duration * 0.5) ease-in-out
+
+
+
+
+.page-content
+    @extend .py-5
+
+    .rich-text img
+        @extend .img-fluid
+
+    .richtext-image
+        @extend .mb-3, .img-fluid
+
+        &.left
+            @extend .float-left, .mr-5
+
+        &.right
+            @extend .float-right, .ml-5
