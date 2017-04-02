@@ -1,7 +1,10 @@
+body
+    overflow-y: scroll
+
 .dropdown
     .dropdown-menu
         margin-top: 0
-        animation-name: slidenavAnimation
+        animation-name: dropdown-fade
         animation-duration: $duration
         animation-timing-function: $timing-function
 
@@ -11,23 +14,8 @@
     &:hover .dropdown-menu
         display: block
 
-@keyframes slidenavAnimation
-  from
-    opacity: 0
-  to
-    opacity: 1
-
-.page-content
-    @extend .py-5
-
-    .rich-text img
-        @extend .img-fluid
-
-    .richtext-image
-        @extend .mb-3, .img-fluid
-
-        &.left
-            @extend .float-left, .mr-5
-
-        &.right
-            @extend .float-right, .ml-5
+    @keyframes dropdown-fade
+        from
+            opacity: 0
+        to
+            opacity: 1
