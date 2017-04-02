@@ -1,3 +1,21 @@
+.page-fade-leave
+  opacity: 1
+
+.page-fade-leave.page-fade-leave-active
+  opacity: 0
+  transition: opacity 1s ease-in
+
+.page-fade-enter
+  opacity: 0
+
+.page-fade-enter.page-fade-enter-active
+  opacity: 1
+  transition: opacity 1s ease-in
+
+.page-fade-height
+  transition: height .5s ease-in-out
+
+
 .dropdown
     .dropdown-menu
         margin-top: 0
@@ -17,7 +35,7 @@
   to
     opacity: 1
 
-.page-content
+.page-fade-content
     @extend .py-5
 
     .rich-text img

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { FadeSwapper } from 'js/components/animation'
 
 
 export default class Page extends React.Component {
@@ -8,11 +9,12 @@ export default class Page extends React.Component {
     }
 
     render() {
-        let inner = ''
+        let inner = '', pageId = -1
         if (this.props.page.sync) {
             let title, body
             try {
                 const d = this.props.page.data
+                pageId = d.id
                 title = d.title
                 body = d.body
             } catch (e) {
@@ -40,7 +42,9 @@ export default class Page extends React.Component {
             )
         }
         return (
-            <div className="page-content container">{inner}</div>
+            <FadeSwapper transitionName="page-fade" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
+                <div key={pageId} className="page-content container">{inner}</div>
+            </FadeSwapper>
         )
     }
 }
