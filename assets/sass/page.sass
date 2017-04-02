@@ -16,23 +16,41 @@
             @extend .float-right, .ml-5
 
     // page fade animation
-    $fade-duration: $duration
     > div
         position: relative
+
+        $fade-duration: $duration
+        $blur-amount: 0.1rem
+        $translate-x: 0.1rem
+
+        =trans
+            transition-property: transform, opacity, filter
+            transition-duration: $fade-duration
 
         .page-fade-leave
             position: absolute
             top: 0
             left: 0
-            opacity: 1
+            filter: blur(0)
+            opacity: 1.0
+            transform: translateX(0)
 
             &.page-fade-leave-active
-                opacity: 0.01
-                transition: opacity $fade-duration
+                +trans
+                transition-timing-function: ease-out
+                filter: blur($blur-amount)
+                opacity: 0.001
+                transform: translateX($translate-x)
 
         .page-fade-enter
-            opacity: 0.01
+            filter: blur($blur-amount)
+            opacity: 0.001
+            transform: translateX(-$translate-x)
 
             &.page-fade-enter-active
+                +trans
+                transition-timing-function: ease-in
+                transition-delay: $fade-duration / 2.0
+                filter: blur(0)
                 opacity: 1.0
-                transition: opacity $fade-duration
+                transform: translateX(0)
