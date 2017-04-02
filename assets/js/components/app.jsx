@@ -19,6 +19,7 @@ class App extends React.Component {
         dispatch: PropTypes.func.isRequired,
         pages: PropTypes.object.isRequired,
         page: PropTypes.object.isRequired,
+        pageTree: PropTypes.object.isRequired,
         routing: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
     }
@@ -41,7 +42,9 @@ class App extends React.Component {
         let path = loc ? loc.pathname : '/'
         return (
             <div id="main-wrapper">
-                <NavBar path={path} pages={this.props.pages}/>
+                <NavBar path={path}
+                        pageTree={this.props.pageTree}
+                        pages={this.props.pages}/>
                 <Page page={this.props.page}/>
             </div>
         )
@@ -52,6 +55,7 @@ const mapStateToProps = state => ({
     routing: state.routing,
     pages: state.pages,
     page: state.page,
+    pageTree: state.pageTree,
 })
 
 export default connect(mapStateToProps)(App)

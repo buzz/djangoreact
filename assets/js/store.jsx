@@ -5,12 +5,14 @@ import watch from 'redux-watch'
 import { devToolsEnhancer } from 'redux-devtools-extension';
 
 import rest from 'js/rest'
+import { pageTreeReducer } from 'js/reducers'
 import { getPageIdFromPath } from 'js/components/app'
 
 
 const reducer = combineReducers({
     ...rest.reducers,
     routing: routerReducer,
+    pageTree: pageTreeReducer,
 })
 
 // TODO: make the server render initial page and persist $REDUX_STATE

@@ -13,64 +13,60 @@ export default class NavBar extends React.Component {
     static propTypes = {
         path: PropTypes.string.isRequired,
         pages: PropTypes.object.isRequired,
+        pageTree: PropTypes.object.isRequired,
     }
 
     render() {
-        let items = []
-        let root = { meta: { url_path: '/' } }
+        const root = this.props.pageTree
         const path = this.props.path
         const isActive = pagePath => path === pagePath
-        if (this.props.pages.sync) {
-            // build menu tree from flat array
-            const pages = this.props.pages.data.items
-            root = pages.find(p => p.meta.parent === null)
-            const rootChildren = pages.filter(p => p.meta.parent === root.id)
-            items = rootChildren.map(page => {
-                const children = pages
-                    .filter(p => p.meta.parent === page.id)
-                    .map((p) => (
-                        <PageLink key={p.id}
-                                  isActive={isActive(p.meta.url_path)}
-                                  className="dropdown-item"
-                                  to={p.meta.url_path}>
-                            {p.title}
+
+        const topLevelNav = root.children.map(page => {
+
+            const dropdownItems = page.children.map(p => (
+                <PageLink className="dropdown-item"
+                          key={p.id}
+                          isActive={isActive(p.meta.url_path)}
+                          to={p.meta.url_path}>
+                    {p.title}
+                </PageLink>
+            ))
+
+            // normal nav link
+            if (dropdownItems.length === 0) {
+                return (
+                    <li key={page.id} className="nav-item">
+                        <PageLink className="nav-link"
+                                  isActive={isActive(page.meta.url_path)}
+                                  to={page.meta.url_path}>
+                            {page.title}
                         </PageLink>
-                    ))
-                if (children.length > 0) {
-                    return (
-                        <li key={page.id} className="nav-item dropdown">
-                            <PageLink className="nav-link"
-                                      isActive={isActive(page.meta.url_path)}
-                                      to={page.meta.url_path}>
-                                {page.title}
-                            </PageLink>
-                            <a className="nav-link dropdown-toggle"
-                               data-toggle="dropdown"
-                               to="#"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false"/>
-                            <div className="dropdown-menu">
-                                {children}
-                            </div>
-                        </li>
-                    )
-                }
-                else {
-                    return (
-                        <li key={page.id} className="nav-item">
-                            <PageLink className="nav-link"
-                                      isActive={isActive(page.meta.url_path)}
-                                      to={page.meta.url_path}>
-                                {page.title}
-                            </PageLink>
-                        </li>
-                    )
-                }
-            })
-        }
+                    </li>
+                )
+            }
+
+            // dropdown menu
+            else {
+                return (
+                    <li key={page.id} className="nav-item dropdown">
+                        <PageLink className="nav-link dropdown-toggle"
+                                  to={page.meta.url_path}
+                                  isActive={isActive(page.meta.url_path)}
+                                  aria-haspopup="true"
+                                  aria-expanded="false">
+                            {page.title}
+                        </PageLink>
+                        <div className="dropdown-menu">
+                            {dropdownItems}
+                        </div>
+                    </li>
+                )
+            }
+        })
+
         return (
-            <nav className="navbar sticky-top navbar-toggleable-sm navbar-inverse bg-inverse">
+            <nav className="navbar sticky-top navbar-toggleable-sm
+                            navbar-inverse bg-inverse">
                 <div className="container">
                     <button className="navbar-toggler navbar-toggler-right"
                             type="button"
@@ -89,7 +85,7 @@ export default class NavBar extends React.Component {
                     </PageLink>
                     <div className="collapse navbar-collapse" id="navbar-menu">
                         <ul className="navbar-nav mr-auto">
-                            {items}
+                            {topLevelNav}
                         </ul>
                     </div>
                 </div>
