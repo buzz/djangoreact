@@ -39,9 +39,6 @@ export default class Page extends React.Component {
                 </div>
             )
         }
-        else {
-            inner = <p>Loading…</p>
-        }
         return (
             <div className="page-content container">{inner}</div>
         )

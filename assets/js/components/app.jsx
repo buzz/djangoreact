@@ -1,8 +1,7 @@
-import _ from 'lodash'
 import React, { PropTypes } from 'react'
-import rest from 'js/rest'
 import { connect } from 'react-redux'
 
+import rest from 'js/rest'
 import NavBar from 'js/components/navbar'
 import Page from 'js/components/page'
 
@@ -18,15 +17,16 @@ export const getPageIdFromPath = (pages, path) => {
 class App extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
         pages: PropTypes.object.isRequired,
         page: PropTypes.object.isRequired,
+        routing: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
     }
 
     componentDidMount() {
-        const path = this.props.location.pathname
         const dispatch = this.props.dispatch
-        // initial pages request
+        const path = this.props.location.pathname
+        // initial page request
         if (!this.props.pages.sync) {
             dispatch(rest.actions.pages.sync(function(_, pages) {
                 const id = getPageIdFromPath(pages.items, path)
@@ -36,11 +36,12 @@ class App extends React.Component {
     }
 
     render() {
-        const path = this.props.location.pathname
-        const pages = _.isUndefined(this.props.pages) ? {} : this.props.pages
+        const _loc = this.props.routing.locationBeforeTransitions
+        const loc = _loc ? _loc : this.props.location
+        let path = loc ? loc.pathname : '/'
         return (
             <div id="main-wrapper">
-                <NavBar path={path} pages={pages}/>
+                <NavBar path={path} pages={this.props.pages}/>
                 <Page page={this.props.page}/>
             </div>
         )
@@ -48,6 +49,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    routing: state.routing,
     pages: state.pages,
     page: state.page,
 })

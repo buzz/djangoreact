@@ -12,13 +12,17 @@ $caret-width: 0.4rem
     .nav-item.dropdown > .nav-link
         display: inline-block
 
-    .dropdown-toggle
-      &::after
+.dropdown-toggle
+    &::after
         margin-left: 0
         border-top: $caret-width solid
         border-right: $caret-width solid transparent
         border-left: $caret-width solid transparent
 
+.dropdown-item
+    &.active,
+    &:active
+        background-color: fade_out($dropdown-link-active-bg, 0.6)
 .page-content
     @extend .py-5
 

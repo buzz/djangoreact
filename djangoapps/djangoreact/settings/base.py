@@ -13,7 +13,6 @@ DEBUG = env.bool('DEBUG', False)
 
 INSTALLED_APPS = [
     'djangoapps.pages',
-    'djangoapps.search',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -127,7 +126,7 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(PROJECT_DIR, 'webpack-stats.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+        'IGNORE': [r'.+\.hot-update.js', '.+\.map']
     }
 }
 

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router-dom'
-import rest from 'js/rest'
 
 
 const PageLink = ({className, isActive, ...rest}) => (
@@ -18,8 +17,10 @@ export default class NavBar extends React.Component {
 
     render() {
         let items = []
-        let root = {meta: {url_path: '/'}}
+        let root = { meta: { url_path: '/' } }
+        const path = this.props.path
         if (this.props.pages.sync) {
+            // build menu tree from flat array
             const pages = this.props.pages.data.items
             root = pages.find(p => p.meta.parent === null)
             const rootChildren = pages.filter(p => p.meta.parent === root.id)
@@ -28,13 +29,13 @@ export default class NavBar extends React.Component {
                     .filter(p => p.meta.parent === page.id)
                     .map((p) => (
                         <PageLink key={p.id}
-                                  isActive={this.props.path === p.meta.url_path}
+                                  isActive={path === p.meta.url_path}
                                   className="dropdown-item"
                                   to={p.meta.url_path}>
                             {p.title}
                         </PageLink>
                     ))
-                const active = this.props.path === page.meta.url_path
+                const active = path === page.meta.url_path
                 if (children.length > 0) {
                     return (
                         <li key={page.id} className="nav-item dropdown">
