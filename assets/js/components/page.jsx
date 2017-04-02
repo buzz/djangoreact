@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import ReactCSSTransitionReplace from 'react-css-transition-replace'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 
 export default class Page extends React.Component {
@@ -42,11 +42,15 @@ export default class Page extends React.Component {
             )
         }
         return (
-            <ReactCSSTransitionReplace transitionName="page-fade"
-                                       transitionEnterTimeout={4000}
-                                       transitionLeaveTimeout={2000}>
-                <div key={pageId} className="page-content container">{inner}</div>
-            </ReactCSSTransitionReplace>
+            <div className="page-content container">
+                <div>
+                    <ReactCSSTransitionGroup transitionName="page-fade"
+                                             transitionEnterTimeout={500}
+                                             transitionLeaveTimeout={500}>
+                        <div className="relative-container" key={pageId}>{inner}</div>
+                    </ReactCSSTransitionGroup>
+                </div>
+            </div>
         )
     }
 }
