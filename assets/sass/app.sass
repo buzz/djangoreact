@@ -1,0 +1,39 @@
+.navbar
+    .navbar-brand
+        transition: color $duration
+        color: darken($gray-lightest, 15%)
+
+        .react
+            color: $gray-lightest
+
+        &:hover, &.hover
+            color: $gray-lighter
+
+            .react
+                color: $gray-lighter
+
+    .nav-item.dropdown > .nav-link
+        display: inline-block
+
+    .nav-link
+        transition: color $duration
+
+.dropdown-item
+    &.active,
+    &:active
+        background-color: fade_out($dropdown-link-active-bg, 0.6)
+
+.page-content
+    @extend .py-5
+
+    .rich-text img
+        @extend .img-fluid
+
+    .richtext-image
+        @extend .mb-3, .img-fluid
+
+        &.left
+            @extend .float-left, .mr-5
+
+        &.right
+            @extend .float-right, .ml-5

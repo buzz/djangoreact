@@ -19,6 +19,7 @@ export default class NavBar extends React.Component {
         let items = []
         let root = { meta: { url_path: '/' } }
         const path = this.props.path
+        const isActive = pagePath => path === pagePath
         if (this.props.pages.sync) {
             // build menu tree from flat array
             const pages = this.props.pages.data.items
@@ -29,18 +30,17 @@ export default class NavBar extends React.Component {
                     .filter(p => p.meta.parent === page.id)
                     .map((p) => (
                         <PageLink key={p.id}
-                                  isActive={path === p.meta.url_path}
+                                  isActive={isActive(p.meta.url_path)}
                                   className="dropdown-item"
                                   to={p.meta.url_path}>
                             {p.title}
                         </PageLink>
                     ))
-                const active = path === page.meta.url_path
                 if (children.length > 0) {
                     return (
                         <li key={page.id} className="nav-item dropdown">
                             <PageLink className="nav-link"
-                                      isActive={active}
+                                      isActive={isActive(page.meta.url_path)}
                                       to={page.meta.url_path}>
                                 {page.title}
                             </PageLink>
@@ -59,7 +59,9 @@ export default class NavBar extends React.Component {
                 else {
                     return (
                         <li key={page.id} className="nav-item">
-                            <PageLink isActive={active} className="nav-link" to={page.meta.url_path}>
+                            <PageLink className="nav-link"
+                                      isActive={isActive(page.meta.url_path)}
+                                      to={page.meta.url_path}>
                                 {page.title}
                             </PageLink>
                         </li>
@@ -80,8 +82,9 @@ export default class NavBar extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <PageLink className="navbar-brand"
-                          to={root.meta.url_path}
-                          title={root.title}>
+                              isActive={isActive(root.meta.url_path)}
+                              to={root.meta.url_path}
+                              title={root.title}>
                         wagtail-<span className="react">react</span>
                     </PageLink>
                     <div className="collapse navbar-collapse" id="navbar-menu">

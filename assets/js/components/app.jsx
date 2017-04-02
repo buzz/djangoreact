@@ -24,9 +24,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        // load pages and requested page
         const dispatch = this.props.dispatch
         const path = this.props.location.pathname
-        // initial page request
         if (!this.props.pages.sync) {
             dispatch(rest.actions.pages.sync(function(_, pages) {
                 const id = getPageIdFromPath(pages.items, path)
