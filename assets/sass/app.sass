@@ -1,12 +1,14 @@
 body
     overflow-y: scroll
 
+$dropdown-opacity: 0.98
 .dropdown
     .dropdown-menu
         margin-top: 0
         animation-name: dropdown-fade
         animation-duration: $duration
         animation-timing-function: $timing-function
+        opacity: $dropdown-opacity
 
         &:hover
             display: block
@@ -18,4 +20,4 @@ body
         from
             opacity: 0
         to
-            opacity: 1
+            opacity: $dropdown-opacity
