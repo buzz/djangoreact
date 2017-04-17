@@ -5,6 +5,7 @@ ThumbsDB
 \#*#
 .#*
 *.pyc
+__pycache__
 /node_modules/
 /.idea/
 environment.cfg
