@@ -1,15 +1,16 @@
 from __future__ import absolute_import, unicode_literals
-import environ
 import os
 
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
+SERVER_DIR = os.path.abspath(os.path.join(os.path.dirname(BASE_DIR), os.pardir))
+PROJECT_DIR = os.path.abspath(os.path.dirname(SERVER_DIR))
 
-env = environ.Env()
-env.read_env(os.path.join(PROJECT_DIR, 'environment.cfg'))
-
-DEBUG = env.bool('DEBUG', False)
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+STATIC_ROOT = os.path.join(
+    PROJECT_DIR, os.environ.get('npm_package_config_django_static_root'))
+MEDIA_ROOT = os.path.join(
+    PROJECT_DIR, os.environ.get('npm_package_config_django_media_root'))
 
 INSTALLED_APPS = [
     'djangoapps.pages',
@@ -78,10 +79,9 @@ WSGI_APPLICATION = 'djangoapps.djangoreact.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(SERVER_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -97,23 +97,15 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'build'),
-]
-
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'assets-collected')
 STATIC_URL = '/assets/'
-
-MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "wagtailreact"
+WAGTAIL_SITE_NAME = 'wagtailreact'
 
 BASE_URL = 'http://example.com'
 
@@ -126,7 +118,7 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(PROJECT_DIR, 'webpack-stats.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
-        'IGNORE': [r'.+\.hot-update.js', '.+\.map']
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
     }
 }
 

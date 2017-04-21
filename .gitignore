@@ -7,11 +7,13 @@ ThumbsDB
 *.pyc
 /node_modules/
 /.idea/
-environment.cfg
-/venv/
-db.sqlite3
-webpack-stats.json
-npm-debug.log
-/media/
-/build/
-/assets-collected/
+
+# django stuff
+/server/db.sqlite3
+/server/.virtualenv/
+/server/media/
+/server/assets-collected/
+
+# node
+/webpack-stats.json
+/npm-debug.log

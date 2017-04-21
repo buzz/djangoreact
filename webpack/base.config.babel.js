@@ -3,7 +3,8 @@ import webpack from 'webpack'
 import BundleTracker from 'webpack-bundle-tracker'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
-const base = path.resolve('.')
+export const basePath = path.resolve('.')
+export const basePathClient = path.join(basePath, 'client')
 
 export default {
   entry: {
@@ -87,8 +88,8 @@ export default {
   ],
   resolve: {
     modules: [
-      path.join(base, 'assets'),
-      path.join(base, 'node_modules'),
+      basePathClient,
+      path.join(basePath, 'node_modules'),
     ],
     extensions: [
       '.js',

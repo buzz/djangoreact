@@ -4,21 +4,30 @@
   "description": "",
   "main": "index.js",
   "config": {
+    "webpack-port": 3000,
     "django-port": 8000,
-    "webpack-port": 3000
+    "django-virtualenv-dir": "server/.virtualenv/",
+    "django-static-root": "server/assets-collected",
+    "django-media-root": "server/media"
   },
   "scripts": {
-    "django-dev": "python manage.py runserver localhost:$npm_package_config_django_port",
-    "webpack-dev": "webpack-dev-server --config webpack/dev.config.babel.js --hot --inline --watch-content-base --watch --port $npm_package_config_webpack_port",
-    "build": "webpack -p --config webpack/prod.config.babel.js",
-    "eslint": "eslint assets/js/**/*jsx"
+    "clean": "rm -rf $npm_package_config_django_static_root",
+    "dev": "concurrently --kill-others \"npm run dev:django\" \"npm run dev:webpack\"",
+    "dev:django": "source $npm_package_config_django_virtualenv_dir/bin/activate && DJANGO_DEBUG=True python server/manage.py runserver localhost:$npm_package_config_django_port",
+    "dev:webpack": "webpack-dev-server --config webpack/dev.config.babel.js --hot --inline --watch-content-base --watch --port $npm_package_config_webpack_port",
+    "django:manage": "source $npm_package_config_django_virtualenv_dir/bin/activate && python server/manage.py",
+    "build": "npm run clean && npm run build:webpack && npm run build:django",
+    "build:webpack": "webpack -p --config webpack/prod.config.babel.js",
+    "build:django": "source $npm_package_config_django_virtualenv_dir/bin/activate && python server/manage.py collectstatic --no-input",
+    "eslint": "eslint --ext jsx client",
+    "create-virtualenv": "virtualenv --python=python3.6 $npm_package_config_django_virtualenv_dir && source $npm_package_config_django_virtualenv_dir/bin/activate && pip install -r server/requirements.txt"
   },
   "repository": {
     "type": "git",
     "url": ""
   },
-  "author": "",
-  "license": "",
+  "author": "buzz",
+  "license": "GPLv2",
   "dependencies": {
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.23.1",
@@ -65,6 +74,7 @@
   "devDependencies": {
     "babel-eslint": "^7.2.2",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "concurrently": "^3.4.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",

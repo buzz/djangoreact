@@ -1,16 +1,15 @@
-import path from 'path'
-import config from './shared.config.babel.js'
+import baseConfig, { basePathClient } from './base.config.babel.js'
 
-const base = path.resolve('.')
-const djangoPort = process.env.npm_package_config_django_port
+const webpackPort = process.env.npm_package_config_webpack_port
 
-config.devtool = 'inline-source-map'
-config.output = {
-	filename: '[name].js',
-	publicPath: 'http://localhost:3000/webpack-bundle/',
+export default {
+  ...baseConfig,
+  devtool: 'inline-source-map',
+  output: {
+    filename: '[name].js',
+    publicPath: `http://localhost:${webpackPort}/webpack-bundle/`,
+  },
+  devServer: {
+    contentBase: basePathClient,
+  },
 }
-config.devServer = {
-	contentBase: path.join(base, 'assets'),
-}
-
-export default config
