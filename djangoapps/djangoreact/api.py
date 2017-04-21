@@ -6,6 +6,7 @@ from djangoapps.pages.models import HomePage
 
 
 class ReactPagesAPIEndpoint(PagesAPIEndpoint):
+    """Expose Pages as API endpoint."""
     base_serializer_class = ReactPageSerializer
     model = HomePage
     meta_fields = PagesAPIEndpoint.meta_fields + [
