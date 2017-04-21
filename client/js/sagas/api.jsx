@@ -9,7 +9,20 @@ export function pagesApi() {
     .then(json => json.items)
 }
 
+const pageCache = {}
+
 export function pageApi(id) {
-  return fetch(`${URL_PAGES}${id}/`)
-    .then(response => response.json())
+  return new Promise((resolve, reject) => {
+    if (pageCache[id]) {
+      resolve(pageCache[id])
+    } else {
+      return fetch(`${URL_PAGES}${id}/`)
+        .then(response => response.json())
+        .then(page => {
+          pageCache[id] = page
+          resolve(page)
+        })
+        .catch(reject)
+    }
+  })
 }
