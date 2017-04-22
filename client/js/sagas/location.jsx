@@ -1,14 +1,13 @@
 import { put, select, takeLatest } from 'redux-saga/effects'
 
 import { pageFetchRequested } from 'js/actions'
-import { getPageFromPath } from 'js/sagas/util'
 import * as selectors from 'js/sagas/selectors'
 
 function* locationChange(action) {
   const pathname = action.payload.pathname
   try {
     const pages = yield select(selectors.pages)
-    const page = yield getPageFromPath(pages, pathname)
+    const page = pages.find(p => p.meta.url_path === pathname)
     yield put(pageFetchRequested(page.id))
   } catch (e) {
     throw (e)
