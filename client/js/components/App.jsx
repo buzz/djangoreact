@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { pagesFetchRequested } from 'js/actions'
-import NavBar from 'js/components/navbar'
-import Page from 'js/components/page'
+import NavBar from 'js/components/NavBar'
+import Page from 'js/components/Page'
 
 class App extends React.Component {
   static propTypes = {

@@ -8,7 +8,10 @@ export function* fetchPages(action) {
   try {
     const pages = yield call(pagesApi)
     yield put(pagesFetchSucceeded(pages))
-    yield put(push(action.path))
+    if (!(typeof module !== 'undefined' && module.exports)) {
+      // only in browser
+      yield put(push(action.path))
+    }
   } catch (e) {
     yield put(pagesFetchFailed(e))
     throw (e)

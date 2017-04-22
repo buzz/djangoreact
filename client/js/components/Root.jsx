@@ -3,7 +3,7 @@ import { Router, Route } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import App from 'js/components/app'
+import App from 'js/components/App'
 import history from 'js/history'
 import store from 'js/store'
 
