@@ -7,8 +7,7 @@ import App from 'js/components/app'
 import history from 'js/history'
 import store from 'js/store'
 
-// Create an enhanced history that syncs navigation events
-// with the store
+// Create an enhanced history that syncs navigation events with the store
 const syncedHistory = syncHistoryWithStore(history, store)
 
 const Root = () => (
