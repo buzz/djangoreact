@@ -8,17 +8,28 @@ export const basePathClient = path.join(basePath, 'client')
 
 export default {
   entry: {
-    'bundle': [
+    bundle: [
+      // bootstrap 4
       'jquery/src/core',
       'tether/dist/js/tether',
       'bootstrap/scss/bootstrap',
       'bootstrap/dist/js/bootstrap',
+      // app entry
       'sass/index',
       'js/index',
     ],
   },
   module: {
     rules: [
+      {
+        test: /jquery\/src\/core/,
+        use: {
+          loader: 'imports-loader',
+          options: {
+            jQuery: 'jquery',
+          },
+        },
+      },
       {
         test: /bootstrap\/dist\/js\//,
         use: {
@@ -58,10 +69,7 @@ export default {
       {
         test: /\.jsx$/,
         exclude: /node_modules/,
-        use: [
-          'react-hot-loader',
-          'babel-loader',
-        ],
+        use: 'babel-loader',
       },
       {
         test: /\.(gif|png|eot|svg|woff2?|ttf)$/,
@@ -70,9 +78,10 @@ export default {
     ],
   },
   plugins: [
+    // generate separate CSS file
     new ExtractTextPlugin('bundle.css'),
-    new webpack.NoEmitOnErrorsPlugin(), // don't reload if there is an error
-    new webpack.NamedModulesPlugin(),
+    // don't reload if there is an error
+    new webpack.NoEmitOnErrorsPlugin(),
     // for django-webpack-loader
     new BundleTracker({
       filename: 'webpack-stats.json',

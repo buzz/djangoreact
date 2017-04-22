@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const PageLink = ({ className, isActive, ...rest }) => (
@@ -76,7 +77,7 @@ export default class NavBar extends React.Component {
                     isActive={isActive(root)}
                     to={root.meta.url_path}
                     title={root.title}>
-            wagtail-<span className="react">react</span>
+            wagtail-react
           </PageLink>
           <div className="collapse navbar-collapse" id="navbar-menu">
             <ul className="navbar-nav mr-auto">

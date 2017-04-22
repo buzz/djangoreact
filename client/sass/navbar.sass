@@ -1,17 +1,9 @@
 .navbar
-    .navbar-brand
-        transition: color $duration
-        color: darken($gray-lightest, 15%)
+  .navbar-brand
+    color: darken($gray-lightest, 15%)
 
-        .react
-            color: $gray-lightest
+    &:hover
+      color: $gray-lightest
 
-        &:hover, &.hover
-            color: $gray-lighter
-
-            .react
-                color: $gray-lighter
-
-    .nav-link, .navbar-brand, .dropdown-item
-        transition-property: color, background-color
-        transition-duration: $duration
+  .nav-link, .navbar-brand, .navbar-brand .react, .dropdown-item
+    transition: color $duration
