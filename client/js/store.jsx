@@ -19,12 +19,13 @@ const reducer = combineReducers({
 const sagaMiddleware = createSagaMiddleware()
 const myRouterMiddleware = routerMiddleware(history)
 
-// TODO: make the server render initial page and persist $REDUX_STATE
-const state = window.$REDUX_STATE
+// pick ip server render state
+const state = window.__PRELOADED_STATE__
+delete window.__PRELOADED_STATE__
+
 const store = createStore(reducer, state, composeWithDevTools(
   applyMiddleware(sagaMiddleware, myRouterMiddleware),
 ))
-delete window.$REDUX_STATE
 
 sagaMiddleware.run(rootSaga)
 

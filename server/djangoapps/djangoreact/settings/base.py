@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
+#    'react',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,11 @@ MEDIA_URL = '/media/'
 WAGTAIL_SITE_NAME = 'wagtailreact'
 
 BASE_URL = 'http://example.com'
+
+# react renderer
+
+REACT_RENDER_URL = 'http://127.0.0.1:8008/render'
+REACT_RENDER_TIMEOUT = 8
 
 # webpack-loader
 

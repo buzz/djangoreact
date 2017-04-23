@@ -2,36 +2,33 @@
 {% load render_bundle from webpack_loader %}
 <!DOCTYPE html lang="en">
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>
-            {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
-            {% endblock %}
-        </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+      {% block title %}
+        {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+      {% endblock %}
+      {% block title_suffix %}
+        {% with self.get_site.site_name as site_name %}
+          {% if site_name %}- {{ site_name }}{% endif %}
+        {% endwith %}
+      {% endblock %}
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {% block extra_css %}
-        {% endblock %}
-        {% render_bundle 'bundle' 'css' %}
-    </head>
+    {% block extra_css %}
+    {% endblock %}
+    {% render_bundle 'bundle' 'css' %}
+  </head>
 
-    <body>
-        {% wagtailuserbar %}
+  <body>
+    {% wagtailuserbar %}
 
-        {% block content %}
-            <div id="djangoreact-app"></div>
-        {% endblock %}
+    <div id="djangoreact-app">{% block content %}{% endblock %}</div>
 
-        {% block extra_js %}
-        {% endblock %}
-        {% render_bundle 'bundle' 'js' %}
-    </body>
+    {% block extra_js %}{% endblock %}
+    {% render_bundle 'bundle' 'js' %}
+  </body>
 </html>

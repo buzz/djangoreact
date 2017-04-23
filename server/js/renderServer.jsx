@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import http from 'http'
 import express from 'express'
-import bodyParser from 'body-parser'
+// import bodyParser from 'body-parser'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 // import reactRender from 'react-render'
@@ -32,7 +32,7 @@ const PORT = argv.port
 const app = express()
 const server = http.Server(app)
 
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.end('React render server')
@@ -43,11 +43,11 @@ const render = (store, pathname = '/') => ReactDOMServer.renderToString(
 )
 
 app.get('/render', (req, res) => {
-  const pathname = '/contact/'
+  const pathname = req.query.pathname
   const store = createStore()
   let pageRequested = false
 
-  let unsubscribe = store.subscribe((e) => {
+  let unsubscribe = store.subscribe(() => {
     const state = store.getState()
     const page = state.page
     const pages = state.pages
@@ -57,16 +57,17 @@ app.get('/render', (req, res) => {
       console.log('PAGES LOADED!')
       // router is not working on the server so we are manually
       // requesting the page
-      const page = getPageByPath(pages, pathname)
-      store.dispatch(pageFetchRequested(page.id))
+      const stubPage = getPageByPath(pages, pathname)
+      if (stubPage.id) {
+        store.dispatch(pageFetchRequested(stubPage.id))
+      }
     } else if (page.id) {
       console.log('PAGE LOADED!')
-      console.log(page)
       unsubscribe()
       // render page
-      const html = render(store, pathname)
+      const markup = render(store, pathname)
       res.json({
-        html,
+        markup,
         state: store.getState(),
         error: null,
       })
