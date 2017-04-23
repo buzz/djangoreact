@@ -16,8 +16,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const path = this.props.location.pathname
-    this.props.dispatch(pagesFetchRequested(path))
+    // initially load data if not already present
+    if (!this.props.pageTree) {
+      const path = this.props.location.pathname
+      this.props.dispatch(pagesFetchRequested(path))
+    }
   }
 
   render() {
