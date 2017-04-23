@@ -1,29 +1,24 @@
-import requests
 import json
+import requests
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.views.generic import TemplateView
-from wagtail.wagtailcore import hooks
+
+from .exceptions import ReactRenderError
 
 
 class ReactView(TemplateView):
     template_name = 'react.html'
 
     def render_html(self):
+        markup = ''
+        state = {}
         request = self.request
         path = request.path
         if not request.site:
             raise Http404
 
-        # wagtail page handling
-        path_components = [component for component in path.split('/') if component]
-        page, args, kwargs = request.site.root_page.specific.route(request, path_components)
-        for fn in hooks.get_hooks('before_serve_page'):
-            result = fn(page, request, args, kwargs)
-            if isinstance(result, HttpResponse):
-                return result
-
-        # request rendered markup
+        # request markup from render server
         url = settings.REACT_RENDER_URL
         request_headers = {'content-type': 'application/json'}
         timeout = (settings.REACT_RENDER_TIMEOUT, settings.REACT_RENDER_TIMEOUT)
@@ -36,33 +31,45 @@ class ReactView(TemplateView):
                 timeout=timeout
             )
         except requests.ConnectionError:
-            print('Warning: Could not connect to render server at {}'.format(url))
+            raise ReactRenderError(
+                'Warning: Could not connect to render server at {}'.format(url))
         if res.status_code != 200:
-            print('Unexpected response from render server at {}'.format(url))
+            raise ReactRenderError(
+                'Unexpected response from render server at {}'.format(url))
+        else:
+            # process response
+            try:
+                obj = res.json()
+            except Exception as err:
+                raise ReactRenderError(err)
+            markup = obj.get('markup', None)
+            state = obj.get('state', {})
+            err = obj.get('error', None)
 
-        # process response
-        obj = res.json()
+            if err:
+                if 'message' in err and 'stack' in err:
+                    raise ReactRenderError(
+                        'Message: %s\n\nStack trace: %s' % (err['message'], err['stack']))
+                raise ReactRenderError(err)
 
-        markup = obj.get('markup', None)
-        state = obj.get('state', {})
-        err = obj.get('error', None)
-
-        if err:
-            if 'message' in err and 'stack' in err:
-                print('Message: {}\n\nStack trace: {}'.format(err['message'], err['stack']))
-            raise Exception(err)
-
-        if markup is None:
-            raise Exception('Render server failed to return markup. Returned: {}'.format(obj))
+            if markup is None:
+                raise ReactRenderError(
+                    'Render server failed to return markup. Returned: {}'.format(obj))
 
         return markup, state
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['markup'], state = self.render_html()
-        context['state'] = json.dumps(state)
-        context['title'] = 'foo'
-        from pprint import pprint
-        print('STATE')
-        pprint(state)
+        try:
+            context['markup'], state = self.render_html()
+            try:
+                context['state'] = json.dumps(state)
+                context['title'] = state['page']['title']
+            except Exception as err:
+                raise ReactRenderError('Error while parsing state: ', err)
+        except ReactRenderError as err:
+            context['markup'] = ''
+            context['state'] = '{}'
+            context['title'] = ''
+            print('ReactRenderError', err)
         return context

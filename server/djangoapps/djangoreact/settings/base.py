@@ -12,7 +12,7 @@ PROJECT_DIR = os.path.abspath(os.path.dirname(SERVER_DIR))
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 def die(msg):
-    print('Error! You have to set the environment variable "%s"' % err)
+    print(msg)
     sys.exit(-1)
 
 # parse env config

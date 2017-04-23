@@ -1,0 +1,2 @@
+class ReactRenderError(ValueError):
+    pass

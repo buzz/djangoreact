@@ -33,13 +33,11 @@ const serve = (req, res) => {
 
     if (!pageRequested && pages.length > 0) {
       pageRequested = true
-      console.log('PAGES LOADED')
       // router is not working on the server so we are manually
       // requesting the page
       const stubPage = getPageByPath(pages, pathname)
       if (stubPage) {
         store.dispatch(pageFetchRequested(stubPage.id))
-        console.log('REQUESTED PAGE FETCH')
       } else {
         res.json({
           markup: null,
@@ -47,11 +45,10 @@ const serve = (req, res) => {
         })
       }
     } else if (page.id) {
-      console.log('PAGE LOADED')
       unsubscribe()
       // render page
       const markup = renderMarkup(store, pathname)
-      console.log('MARKUP RENDERED')
+      console.log(`Markup served. pathname=${pathname} title=${page.title} id=${page.id}`)
       res.json({
         markup,
         state: store.getState(),

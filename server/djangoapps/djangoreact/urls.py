@@ -10,6 +10,7 @@ from wagtail.wagtailcore.urls import serve_pattern as wagtail_serve_pattern
 from .api import api_router
 from .views import ReactView
 
+
 admin_serve_pattern = r'^%s' % settings.ADMIN_BASE_PATH
 api_serve_pattern = r'^%s' % settings.API_BASE_PATH
 
@@ -28,4 +29,5 @@ urlpatterns = [
 if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

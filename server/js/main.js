@@ -26,8 +26,8 @@ const address = argv.address
 const port = argv.port
 
 createRenderServer(port, address).then(() => {
-  console.log(`React render server: Listening at http://${address}:${port}`)
-  console.log(`                     Calling endpoint at ${endpoint}`)
+  console.log(`Listening at http://${address}:${port}`)
+  console.log(`Calling endpoint at ${endpoint}`)
 }).catch((err) => {
   console.log('Could not create renderServer:', err)
 })

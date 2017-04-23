@@ -14,12 +14,6 @@ class App extends React.Component {
     location: PropTypes.object.isRequired,
   }
 
-  componentDidMount() {
-    // if (NODE_ENV === 'development') {
-    //   console.log('development');
-    // }
-  }
-
   render() {
     const loc = this.props.routing.locationBeforeTransitions || this.props.location
     let path = loc ? loc.pathname : '/'

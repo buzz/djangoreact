@@ -15,7 +15,6 @@ export function pageApi(id) {
     if (pageCache[id]) {
       resolve(pageCache[id])
     } else {
-      console.log('LOADING ', `${API_PAGES_URL}${id}/`)
       return fetch(`${API_PAGES_URL}${id}/`)
         .then(response => response.json())
         .then(page => {
