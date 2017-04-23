@@ -1,0 +1,8 @@
+djangoreact:wagtail-port = 9000
+djangoreact:render-port = 9001
+djangoreact:webpack-port = 9002
+djangoreact:api-base-path = "api/v2/"
+djangoreact:admin-base-path = "admin/"
+djangoreact:virtualenv-dir = "server/.virtualenv/"
+djangoreact:static-root = "server/assets-collected"
+djangoreact:media-root = "server/media"

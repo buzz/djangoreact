@@ -1,16 +1,41 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import sys
 
 
+# setup common directories
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 SERVER_DIR = os.path.abspath(os.path.join(os.path.dirname(BASE_DIR), os.pardir))
 PROJECT_DIR = os.path.abspath(os.path.dirname(SERVER_DIR))
 
+# DEBUG needs to be set explicitly
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
-STATIC_ROOT = os.path.join(
-    PROJECT_DIR, os.environ.get('npm_package_config_django_static_root'))
-MEDIA_ROOT = os.path.join(
-    PROJECT_DIR, os.environ.get('npm_package_config_django_media_root'))
+
+def die(msg):
+    print('Error! You have to set the environment variable "%s"' % err)
+    sys.exit(-1)
+
+# parse env config
+try:
+    RENDER_URL = os.environ['npm_package_config_render_url']
+except KeyError as err:
+    try:
+        RENDER_PORT = os.environ['npm_package_config_render_port']
+        RENDER_URL = 'http://127.0.0.1:%d/' % int(RENDER_PORT)
+    except KeyError as err:
+        die('''Error! You need to configure the render server by either
+            setting $npm_package_config_render_port or
+            $npm_package_config_render_url.''')
+try:
+    API_BASE_PATH = os.environ['npm_package_config_api_base_path']
+    API_PAGES_PATH = os.environ['npm_package_config_api_pages_path']
+    ADMIN_BASE_PATH = os.environ['npm_package_config_admin_base_path']
+    STATIC_ROOT = os.path.join(
+        PROJECT_DIR, os.environ['npm_package_config_static_root'])
+    MEDIA_ROOT = os.path.join(
+        PROJECT_DIR, os.environ['npm_package_config_media_root'])
+except KeyError as err:
+    die('Error! You have to set the environment variable "%s"' % err)
 
 INSTALLED_APPS = [
     'djangoapps.pages',
@@ -38,7 +63,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
-#    'react',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +136,7 @@ BASE_URL = 'http://example.com'
 
 # react renderer
 
-REACT_RENDER_URL = 'http://127.0.0.1:8008/render'
+REACT_RENDER_URL = RENDER_URL
 REACT_RENDER_TIMEOUT = 8
 
 # webpack-loader

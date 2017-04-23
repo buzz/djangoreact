@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { pagesFetchRequested } from 'js/actions'
 import NavBar from 'js/components/NavBar'
 import Page from 'js/components/Page'
 
@@ -16,11 +15,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // initially load data if not already present
-    if (!this.props.pageTree) {
-      const path = this.props.location.pathname
-      this.props.dispatch(pagesFetchRequested(path))
-    }
+    // if (NODE_ENV === 'development') {
+    //   console.log('development');
+    // }
   }
 
   render() {

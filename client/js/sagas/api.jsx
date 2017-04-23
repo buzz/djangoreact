@@ -1,16 +1,9 @@
 import 'isomorphic-fetch'
 
-let BASE_URL = ''
-if (typeof module !== 'undefined' && module.exports) {
-  // under node
-  BASE_URL = 'http://127.0.0.1:8000'
-}
-const URL = `${BASE_URL}/api/v2`
-const URL_PAGES = `${URL}/pages/`
+const API_PAGES_URL = process.env.api_pages_url
 
 export function pagesApi() {
-  console.log(`fetching ${URL_PAGES}`)
-  return fetch(URL_PAGES)
+  return fetch(API_PAGES_URL)
     .then(response => response.json())
     .then(json => json.items)
 }
@@ -22,7 +15,8 @@ export function pageApi(id) {
     if (pageCache[id]) {
       resolve(pageCache[id])
     } else {
-      return fetch(`${URL_PAGES}${id}/`)
+      console.log('LOADING ', `${API_PAGES_URL}${id}/`)
+      return fetch(`${API_PAGES_URL}${id}/`)
         .then(response => response.json())
         .then(page => {
           pageCache[id] = page

@@ -6,6 +6,13 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 export const basePath = path.resolve('.')
 export const basePathClient = path.join(basePath, 'client')
 
+// TODO: add purifycss-webpack?
+
+// pass down configuration
+const apiBasePath = process.env.npm_package_config_api_base_path
+const apiPagesPath = process.env.npm_package_config_api_pages_path
+const apiPagesUrl = `/${apiBasePath}${apiPagesPath}/`
+
 export default {
   entry: {
     bundle: [
@@ -93,6 +100,11 @@ export default {
       jQuery: 'jQuery',
       '$': 'jQuery',
       'window.jQuery': 'jQuery',
+    }),
+    // inject configuration: replace process.env.* strings
+    new webpack.EnvironmentPlugin({
+      api_pages_url: apiPagesUrl,
+      is_browser: true,
     }),
   ],
   resolve: {

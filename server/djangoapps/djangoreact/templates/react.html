@@ -7,7 +7,7 @@
 {% block content %}{{ markup|safe }}{% endblock %}
 
 {% block extra_js %}
-  <script type="text/javascript">
+  <script type="text/javascript" id="__PRELOADED_STATE__">
     window.__PRELOADED_STATE__ = {{ state|safe }};
   </script>
 {% endblock %}

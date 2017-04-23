@@ -4,7 +4,6 @@ from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.views.generic import TemplateView
 from wagtail.wagtailcore import hooks
-#from react.render import render_component
 
 
 class ReactView(TemplateView):
@@ -37,9 +36,9 @@ class ReactView(TemplateView):
                 timeout=timeout
             )
         except requests.ConnectionError:
-            raise Exception('Could not connect to render server at {}'.format(url))
+            print('Warning: Could not connect to render server at {}'.format(url))
         if res.status_code != 200:
-            raise Exception('Unexpected response from render server at {}'.format(url))
+            print('Unexpected response from render server at {}'.format(url))
 
         # process response
         obj = res.json()
@@ -50,15 +49,12 @@ class ReactView(TemplateView):
 
         if err:
             if 'message' in err and 'stack' in err:
-                raise Exception(
-                    'Message: {}\n\nStack trace: {}'.format(err['message'], err['stack'])
-                )
+                print('Message: {}\n\nStack trace: {}'.format(err['message'], err['stack']))
             raise Exception(err)
 
         if markup is None:
             raise Exception('Render server failed to return markup. Returned: {}'.format(obj))
 
-        print(markup)
         return markup, state
 
     def get_context_data(self, **kwargs):
@@ -66,4 +62,7 @@ class ReactView(TemplateView):
         context['markup'], state = self.render_html()
         context['state'] = json.dumps(state)
         context['title'] = 'foo'
+        from pprint import pprint
+        print('STATE')
+        pprint(state)
         return context

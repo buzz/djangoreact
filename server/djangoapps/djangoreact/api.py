@@ -1,3 +1,4 @@
+from django.conf import settings
 from wagtail.api.v2.endpoints import PagesAPIEndpoint
 from wagtail.api.v2.router import WagtailAPIRouter
 
@@ -21,4 +22,4 @@ class ReactPagesAPIEndpoint(PagesAPIEndpoint):
     detail_only_fields = []
 
 api_router = WagtailAPIRouter('wagtailapi')
-api_router.register_endpoint('pages', ReactPagesAPIEndpoint)
+api_router.register_endpoint(settings.API_PAGES_PATH, ReactPagesAPIEndpoint)
