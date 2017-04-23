@@ -3,6 +3,8 @@ import os
 import sys
 
 
+# TODO: feed db url from env
+
 # setup common directories
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 SERVER_DIR = os.path.abspath(os.path.join(os.path.dirname(BASE_DIR), os.pardir))

@@ -4,13 +4,65 @@ import ReactDOMServer from 'react-dom/server'
 import createStore from './store'
 import Root from './Root'
 
-// client code
 import { pageFetchRequested, pagesFetchRequested } from 'js/actions'
 import { getPageByPath } from 'js/sagas/location'
 
 const renderMarkup = (store, pathname = '/') => ReactDOMServer.renderToString(
   <Root store={store} pathname={pathname} />
 )
+
+function fetchMarkup(pathname) {
+  const store = createStore()
+
+  const awaitPage = () => {
+    return new Promise((resolve, reject) => {
+      let unsubscribe = store.subscribe(() => {
+        const page = store.getState().page
+        if (page.id) {
+          unsubscribe()
+          // render page
+          const markup = renderMarkup(store, pathname)
+          resolve({
+            markup,
+            state: store.getState(),
+            error: null,
+          })
+        }
+      })
+    })
+  }
+
+  const awaitPages = () => {
+    return new Promise((resolve, reject) => {
+      let unsubscribe = store.subscribe(() => {
+        const pages = store.getState().pages
+
+        if (pages.length > 0) {
+          unsubscribe()
+          const stubPage = getPageByPath(pages, pathname)
+          if (stubPage) {
+            resolve(stubPage.id)
+          } else {
+            reject(new Error(`Invalid value for "pathname=${pathname}" received.`))
+          }
+          resolve(pages)
+        }
+      })
+    })
+  }
+
+  // trigger API request
+  store.dispatch(pagesFetchRequested(pathname))
+  return awaitPages().then(currentPageId => {
+    // router is not working on the server so we are manually
+    // requesting the page
+    store.dispatch(pageFetchRequested(currentPageId))
+    return awaitPage().then(data => {
+      console.log(`Markup served. pathname=${pathname} title=${data.title} id=${data.id}`)
+      return data
+    })
+  })
+}
 
 // serve html markup, requires GET parameter "pathname"
 const serve = (req, res) => {
@@ -23,40 +75,15 @@ const serve = (req, res) => {
     })
   }
 
-  const store = createStore()
-  let pageRequested = false
-
-  let unsubscribe = store.subscribe(() => {
-    const state = store.getState()
-    const page = state.page
-    const pages = state.pages
-
-    if (!pageRequested && pages.length > 0) {
-      pageRequested = true
-      // router is not working on the server so we are manually
-      // requesting the page
-      const stubPage = getPageByPath(pages, pathname)
-      if (stubPage) {
-        store.dispatch(pageFetchRequested(stubPage.id))
-      } else {
-        res.json({
-          markup: null,
-          err: 'Invalid value for "pathname" received.',
-        })
-      }
-    } else if (page.id) {
-      unsubscribe()
-      // render page
-      const markup = renderMarkup(store, pathname)
-      console.log(`Markup served. pathname=${pathname} title=${page.title} id=${page.id}`)
-      res.json({
-        markup,
-        state: store.getState(),
-        error: null,
-      })
-    }
+  fetchMarkup(pathname).then(data => {
+    res.json(data)
+  }).catch(err => {
+    res.json({
+      markup: '',
+      state: {},
+      error: err,
+    })
   })
-  store.dispatch(pagesFetchRequested(pathname))
 }
 
 export default serve
