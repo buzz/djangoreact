@@ -3,7 +3,6 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
 
 import history from 'js/history'
-import { appStart } from 'js/actions'
 import { pageTreeReducer, pagesReducer, pageReducer } from 'js/reducers'
 import rootSaga from 'js/sagas'
 import getInitialState from 'js/store/getInitialState'
@@ -16,7 +15,15 @@ const reducer = combineReducers({
   page: pageReducer,
 })
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaOpts = {
+  sagaMonitor: {
+    actionDispatched: action => {
+      console.log('sagaMonitor: action=', action.type)
+    },
+  },
+}
+// const sagaMiddleware = createSagaMiddleware(process.env.is_browser ? undefined : sagaOpts)
+const sagaMiddleware = createSagaMiddleware(sagaOpts)
 const myRouterMiddleware = process.env.is_browser ? routerMiddleware(history) : routerMiddleware()
 const enhancer = myApplyMiddleware(sagaMiddleware, myRouterMiddleware)
 const state = getInitialState()
@@ -24,7 +31,5 @@ const state = getInitialState()
 const store = createStore(reducer, state, enhancer)
 
 sagaMiddleware.run(rootSaga)
-store.dispatch(appStart('TODO'))
-// store.dispatch(appStart(history.pathname))
 
 export default store

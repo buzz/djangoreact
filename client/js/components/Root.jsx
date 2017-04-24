@@ -6,6 +6,8 @@ import { Provider } from 'react-redux'
 import App from 'js/components/App'
 import getRouter from 'js/router'
 
+// TODO: write page title to window
+
 export default class Root extends React.Component {
   static propTypes = {
     store: PropTypes.object.isRequired,

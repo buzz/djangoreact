@@ -7,7 +7,6 @@ import Page from 'js/components/Page'
 
 class App extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     page: PropTypes.object.isRequired,
     pageTree: PropTypes.object.isRequired,
     routing: PropTypes.object.isRequired,
