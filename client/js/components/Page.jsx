@@ -41,7 +41,8 @@ export default class Page extends React.Component {
     return (
       <div className="page-content container">
         <div>
-          <ReactCSSTransitionGroup transitionName="page-fade"
+          <ReactCSSTransitionGroup component="div"
+                                   transitionName="page-fade"
                                    transitionEnterTimeout={500}
                                    transitionLeaveTimeout={500}>
             <div className="relative-container" key={id}>{inner}</div>
