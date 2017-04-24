@@ -3,21 +3,18 @@ import os
 import sys
 
 
-# TODO: feed db url from env
+def die(msg):
+    print(msg)
+    sys.exit(-1)
 
 # setup common directories
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 SERVER_DIR = os.path.abspath(os.path.join(os.path.dirname(BASE_DIR), os.pardir))
 PROJECT_DIR = os.path.abspath(os.path.dirname(SERVER_DIR))
 
-# DEBUG needs to be set explicitly
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
-
-def die(msg):
-    print(msg)
-    sys.exit(-1)
-
-# parse env config
+# parse env config from package.json
+# TODO: feed db url from env
+DEBUG = os.environ.get('npm_package_config_debug', 'false') == 'true'
 try:
     RENDER_URL = os.environ['npm_package_config_render_url']
 except KeyError as err:

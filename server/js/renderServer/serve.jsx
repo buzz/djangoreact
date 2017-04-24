@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
-import createStore from './store'
-import Root from './Root'
+import store from 'js/store'
+import Root from 'js/components/Root'
 
 import { pageFetchRequested, pagesFetchRequested } from 'js/actions'
 import { getPageByPath } from 'js/sagas/location'
@@ -12,8 +12,6 @@ const renderMarkup = (store, pathname = '/') => ReactDOMServer.renderToString(
 )
 
 function fetchMarkup(pathname) {
-  const store = createStore()
-
   const awaitPage = () => {
     return new Promise((resolve, reject) => {
       let unsubscribe = store.subscribe(() => {
@@ -58,7 +56,8 @@ function fetchMarkup(pathname) {
     // requesting the page
     store.dispatch(pageFetchRequested(currentPageId))
     return awaitPage().then(data => {
-      console.log(`Markup served. pathname=${pathname} title=${data.title} id=${data.id}`)
+      const page = data.state.page
+      console.log(`Markup served. pathname=${pathname} title=${page.title} id=${page.id}`)
       return data
     })
   })

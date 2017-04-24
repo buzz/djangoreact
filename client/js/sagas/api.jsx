@@ -8,6 +8,7 @@ export function pagesApi() {
     .then(json => json.items)
 }
 
+// TODO: refactor cache into reducer, having cache in state?
 const pageCache = {}
 
 export function pageApi(id) {

@@ -9,6 +9,7 @@ export const basePathClient = path.join(basePath, 'client')
 // TODO: add purifycss-webpack?
 
 // pass down configuration
+const debug = process.env.npm_package_config_debug === 'true'
 const apiBasePath = process.env.npm_package_config_api_base_path
 const apiPagesPath = process.env.npm_package_config_api_pages_path
 const apiPagesUrl = `/${apiBasePath}${apiPagesPath}/`
@@ -105,6 +106,7 @@ export default {
     new webpack.EnvironmentPlugin({
       api_pages_url: apiPagesUrl,
       is_browser: true,
+      debug: debug,
     }),
   ],
   resolve: {

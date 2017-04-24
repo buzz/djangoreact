@@ -8,6 +8,7 @@ if (!('api_pages_url' in process.env)) {
 const endpoint = process.env.api_pages_url
 
 // command line args
+
 const argv = yargs
   .option('a', {
     alias: 'address',
