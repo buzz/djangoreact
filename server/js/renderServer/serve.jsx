@@ -1,107 +1,69 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
-import store from 'js/store'
+import configureStore from 'js/store'
+import appSaga from 'js/sagas'
 import Root from 'js/components/Root'
-
-import { appStart } from 'js/actions'
+import { call, put, race, take } from 'redux-saga/effects'
+import { appStartRequested } from 'js/actions'
 
 const renderMarkup = (store, pathname = '/') => ReactDOMServer.renderToString(
   <Root store={store} pathname={pathname} />
 )
 
-// function fetchMarkup(pathname) {
-  // const awaitPage = () => {
-  //   return new Promise((resolve, reject) => {
-  //     let unsubscribe = store.subscribe(() => {
-  //       const page = store.getState().page
-  //       if (page.id) {
-  //         unsubscribe()
-  //         // render page
-  //         const markup = renderMarkup(store, pathname)
-  //         resolve({
-  //           markup,
-  //           state: store.getState(),
-  //           error: null,
-  //         })
-  //       }
-  //     })
-  //   })
-  // }
-  //
-  // const awaitPages = () => {
-  //   return new Promise((resolve, reject) => {
-  //     let unsubscribe = store.subscribe(() => {
-  //       const pages = store.getState().pages
-  //
-  //       if (pages.length > 0) {
-  //         unsubscribe()
-  //         const stubPage = getPageByPath(pages, pathname)
-  //         if (stubPage) {
-  //           resolve(stubPage.id)
-  //         } else {
-  //           reject(new Error(`Invalid value for "pathname=${pathname}" received.`))
-  //         }
-  //         resolve(pages)
-  //       }
-  //     })
-  //   })
-  // }
+const response = ({markup = '', state = {}, error = null}) => ({
+  markup,
+  state,
+  error,
+})
 
-  // trigger API request
-  // store.dispatch(appStart(pathname))
-  // return awaitPages().then(currentPageId => {
-  //   // router is not working on the server so we are manually
-  //   // requesting the page
-  //   store.dispatch(pageFetchRequested(currentPageId))
-  //   return awaitPage().then(data => {
-  //     const page = data.state.page
-  //     console.log(`Markup served. pathname=${pathname} title=${page.title} id=${page.id}`)
-  //     return data
-  //   })
-  // })
-// }
-
-function fetchMarkup(pathname) {
-  // wait for page data to be loaded
-  const awaitPage = new Promise((resolve, reject) => {
-    let unsubscribe = store.subscribe(() => {
-      const page = store.getState().page
-      if (page.id) {
-        unsubscribe()
-        // render page
-        const markup = renderMarkup(store, pathname)
-        resolve({
-          markup,
-          state: store.getState(),
-          error: null,
-        })
+// create store and get app markup/state
+function fetchAppSnapshot(pathname) {
+  return new Promise((resolve, reject) => {
+    // saga that waits for app to start up and takes snapshot
+    function* fetchAppSnapshotSaga() {
+      yield put(appStartRequested(pathname))
+      const { error } = yield race({
+        succeeded: take('APP_START_SUCCEEDED'),
+        error: take('APP_START_FAILED'),
+      })
+      if (error) {
+        yield call(reject, error)
+      } else {
+        // extract markup and app state
+        const markup = yield call(renderMarkup, store, pathname)
+        const state = store.getState()
+        yield call(resolve, { markup, state })
       }
+    }
+
+    const store = configureStore()
+
+    // run main/markup saga concurrently
+    store.runSaga(function* () {
+      yield [
+        call(appSaga),
+        call(fetchAppSnapshotSaga),
+      ]
     })
   })
-  store.dispatch(appStart(pathname))
-  return awaitPage
 }
 
 // serve html markup, requires GET parameter "pathname"
 const serve = (req, res) => {
   const pathname = req.query.pathname
+
   if (!pathname) {
-    res.json({
-      markup: null,
-      err: 'Parameter "pathname" missing.',
-    })
+    res.json(response({ error: 'Parameter "pathname" missing.' }))
   }
 
-  fetchMarkup(pathname).then(data => {
-    res.json(data)
-  }).catch(err => {
-    res.json({
-      markup: '',
-      state: {},
-      error: err,
+  fetchAppSnapshot(pathname)
+    .then(snapshot => {
+      res.json(response(snapshot))
     })
-  })
+    .catch(error => {
+      res.json(response({ error }))
+    })
 }
 
 export default serve

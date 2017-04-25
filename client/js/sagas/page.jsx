@@ -9,7 +9,6 @@ export function* fetchPage(action) {
     yield put(pageFetchSucceeded(page))
   } catch (e) {
     yield put(pageFetchFailed(e))
-    throw (e)
   }
 }
 

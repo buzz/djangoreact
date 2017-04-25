@@ -37,6 +37,7 @@
   "author": "buzz",
   "license": "GPL-2.0",
   "dependencies": {
+    "array.prototype.find": "^2.0.4",
     "autoprefixer": "^6.7.7",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",

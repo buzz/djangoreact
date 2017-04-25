@@ -136,7 +136,7 @@ BASE_URL = 'http://example.com'
 # react renderer
 
 REACT_RENDER_URL = RENDER_URL
-REACT_RENDER_TIMEOUT = 8
+REACT_RENDER_TIMEOUT = 1
 
 # webpack-loader
 

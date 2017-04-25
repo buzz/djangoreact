@@ -3,7 +3,7 @@ import { watchLocation } from 'js/sagas/location'
 import { watchPage } from 'js/sagas/page'
 import { watchPages } from 'js/sagas/pages'
 
-function* rootSaga() {
+function* appSaga() {
   yield [
     watchAppStart(),
     watchPages(),
@@ -12,4 +12,4 @@ function* rootSaga() {
   ]
 }
 
-export default rootSaga
+export default appSaga

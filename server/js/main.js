@@ -1,6 +1,8 @@
 import yargs from 'yargs'
+
 import { createRenderServer } from './renderServer'
 
+// env vars
 if (!('api_pages_url' in process.env)) {
   console.log('Environment variable $api_pages_url needs to be set.')
   process.exit(-1)
@@ -8,7 +10,6 @@ if (!('api_pages_url' in process.env)) {
 const endpoint = process.env.api_pages_url
 
 // command line args
-
 const argv = yargs
   .option('a', {
     alias: 'address',
@@ -28,7 +29,7 @@ const port = argv.port
 
 createRenderServer(port, address).then(() => {
   console.log(`Listening at http://${address}:${port}`)
-  console.log(`Calling endpoint at ${endpoint}`)
+  console.log(`Using endpoint ${endpoint}`)
 }).catch((err) => {
   console.log('Could not create renderServer:', err)
 })

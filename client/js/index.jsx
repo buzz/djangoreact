@@ -3,9 +3,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import Root from 'js/components/Root'
-import store from 'js/store'
 import history from 'js/history'
-import { appStart } from 'js/actions'
+import configureStore from 'js/store'
+import appSaga from 'js/sagas'
+import { appStartRequested } from 'js/actions'
 
+const store = configureStore()
 ReactDOM.render(<Root store={store} />, document.getElementById('djangoreact-app'))
-store.dispatch(appStart(history.pathname))
+store.runSaga(appSaga)
+store.dispatch(appStartRequested(history.pathname))
