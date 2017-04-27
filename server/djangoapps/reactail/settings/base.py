@@ -1,40 +1,53 @@
 from __future__ import absolute_import, unicode_literals
 import os
 import sys
+import environ
+from django.core.exceptions import ImproperlyConfigured
 
+
+ENV = environ.Env(
+    NODE_ENV=(str, 'production'),
+    npm_package_config_allowed_hosts=(list)
+)
 
 def die(msg):
     print(msg)
     sys.exit(-1)
 
 # setup common directories
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
-SERVER_DIR = os.path.abspath(os.path.join(os.path.dirname(BASE_DIR), os.pardir))
-PROJECT_DIR = os.path.abspath(os.path.dirname(SERVER_DIR))
+PATH = environ.Path(__file__)
+BASE_DIR = PATH - 2
+SERVER_DIR = PATH - 4
+PROJECT_DIR = PATH - 5
+
+# interpret config paths relative to PROJECT_DIR
+MAKE_ABS = lambda path: os.path.isabs(path) and path or PROJECT_DIR(path)
 
 # parse env config from package.json
-# TODO: feed db url from env
-DEBUG = os.environ.get('npm_package_config_debug', 'false') == 'true'
+DEBUG = ENV('NODE_ENV') == 'development'
+
 try:
-    RENDER_URL = os.environ['npm_package_config_render_url']
-except KeyError as err:
+    RENDER_URL = ENV('npm_package_config_render_url')
+except ImproperlyConfigured as err:
     try:
-        RENDER_PORT = os.environ['npm_package_config_render_port']
+        RENDER_PORT = ENV('npm_package_config_render_port')
         RENDER_URL = 'http://127.0.0.1:%d/' % int(RENDER_PORT)
-    except KeyError as err:
-        die('''Error! You need to configure the render server by either
-            setting $npm_package_config_render_port or
-            $npm_package_config_render_url.''')
-try:
-    API_BASE_PATH = os.environ['npm_package_config_api_base_path']
-    API_PAGES_PATH = os.environ['npm_package_config_api_pages_path']
-    ADMIN_BASE_PATH = os.environ['npm_package_config_admin_base_path']
-    STATIC_ROOT = os.path.join(
-        PROJECT_DIR, os.environ['npm_package_config_static_root'])
-    MEDIA_ROOT = os.path.join(
-        PROJECT_DIR, os.environ['npm_package_config_media_root'])
-except KeyError as err:
-    die('Error! You have to set the environment variable "%s"' % err)
+    except ImproperlyConfigured as err:
+        raise ImproperlyConfigured(
+            'You need to set either $npm_package_config_render_url or ' +
+            '$npm_package_config_render_port.')
+
+API_BASE_PATH = ENV('npm_package_config_api_base_path')
+API_PAGES_PATH = ENV('npm_package_config_api_pages_path')
+ADMIN_BASE_PATH = ENV('npm_package_config_admin_base_path')
+
+STATIC_ROOT = MAKE_ABS(ENV('npm_package_config_static_root'))
+MEDIA_ROOT = MAKE_ABS(ENV('npm_package_config_media_root'))
+
+SECRET_KEY = ENV('npm_package_config_secret_key')
+ALLOWED_HOSTS = ENV('npm_package_config_allowed_hosts')
+
+WEBPACK_STATS_FILE = MAKE_ABS(ENV('npm_package_config_webpack_stats_file'))
 
 INSTALLED_APPS = [
     'djangoapps.pages',
@@ -78,13 +91,13 @@ MIDDLEWARE = [
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
 
-ROOT_URLCONF = 'djangoapps.djangoreact.urls'
+ROOT_URLCONF = 'djangoapps.reactail.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            BASE_DIR('templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -98,26 +111,21 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangoapps.djangoreact.wsgi.application'
+WSGI_APPLICATION = 'djangoapps.reactail.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(SERVER_DIR, 'db.sqlite3'),
-    }
+    'default': ENV.db('npm_package_config_database_url'),
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.10/topics/i18n/
+# sqllite db file is relative to project dir
+if DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
+    DATABASES['default']['NAME'] = MAKE_ABS(DATABASES['default']['NAME'])
 
+# i18n
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 STATICFILES_FINDERS = [
@@ -131,8 +139,6 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = 'wagtailreact'
 
-BASE_URL = 'http://example.com'
-
 # react renderer
 
 REACT_RENDER_URL = RENDER_URL
@@ -144,15 +150,9 @@ WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
         'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
-        'STATS_FILE': os.path.join(PROJECT_DIR, 'webpack-stats.json'),
+        'STATS_FILE': WEBPACK_STATS_FILE,
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
-    }
-}
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG
     }
 }

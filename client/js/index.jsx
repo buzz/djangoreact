@@ -9,6 +9,6 @@ import appSaga from 'js/sagas'
 import { appStartRequested } from 'js/actions'
 
 const store = configureStore()
-ReactDOM.render(<Root store={store} />, document.getElementById('djangoreact-app'))
+ReactDOM.render(<Root store={store} />, document.getElementById('reactail-app'))
 store.runSaga(appSaga)
 store.dispatch(appStartRequested(history.pathname))

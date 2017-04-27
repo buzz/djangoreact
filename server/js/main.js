@@ -2,7 +2,7 @@ import yargs from 'yargs'
 
 import { createRenderServer } from './renderServer'
 
-// env vars
+// configuration for the client part works cross client/server
 if (!('api_pages_url' in process.env)) {
   console.log('Environment variable $api_pages_url needs to be set.')
   process.exit(-1)

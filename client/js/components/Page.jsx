@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
 export default class Page extends React.Component {
   static propTypes = {
@@ -41,12 +41,12 @@ export default class Page extends React.Component {
     return (
       <div className="page-content container">
         <div>
-          <ReactCSSTransitionGroup component="div"
-                                   transitionName="page-fade"
-                                   transitionEnterTimeout={500}
-                                   transitionLeaveTimeout={500}>
+          <CSSTransitionGroup component="div"
+                              transitionName="page-fade"
+                              transitionEnterTimeout={500}
+                              transitionLeaveTimeout={500}>
             <div className="relative-container" key={id}>{inner}</div>
-          </ReactCSSTransitionGroup>
+          </CSSTransitionGroup>
         </div>
       </div>
     )

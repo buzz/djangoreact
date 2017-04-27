@@ -10,12 +10,12 @@ __pycache__
 /.idea/
 
 # django stuff
-/server/db.sqlite3
+/db.sqlite3
 /server/.virtualenv/
 /server/media/
-/server/assets-collected/
+/server/static-collected/
 
 # node
-/webpack-stats.json
+/.webpack-stats.json
 /npm-debug.log
 /.npmrc

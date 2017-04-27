@@ -6,13 +6,13 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 export const basePath = path.resolve('.')
 export const basePathClient = path.join(basePath, 'client')
 
-// TODO: add purifycss-webpack?
+// TODO: add purifycss/other optim webpack plugins?
 
 // pass down configuration
-const debug = process.env.npm_package_config_debug === 'true'
 const apiBasePath = process.env.npm_package_config_api_base_path
 const apiPagesPath = process.env.npm_package_config_api_pages_path
 const apiPagesUrl = `/${apiBasePath}${apiPagesPath}/`
+const statsFile = process.env.npm_package_config_webpack_stats_file
 
 export default {
   entry: {
@@ -29,6 +29,20 @@ export default {
   },
   module: {
     rules: [
+      {
+        test: /\.(jsx|js)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015'],
+            plugins: [
+              'transform-class-properties',
+              'transform-es2015-destructuring',
+            ],
+          },
+        },
+      },
       {
         test: /jquery\/src\/core/,
         use: {
@@ -75,11 +89,6 @@ export default {
         }),
       },
       {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      {
         test: /\.(gif|png|eot|svg|woff2?|ttf)$/,
         use: 'file-loader',
       },
@@ -92,8 +101,9 @@ export default {
     new webpack.NoEmitOnErrorsPlugin(),
     // for django-webpack-loader
     new BundleTracker({
-      filename: 'webpack-stats.json',
+      filename: statsFile,
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     // BS4 needs this
     new webpack.ProvidePlugin({
       Tether: 'tether',
@@ -106,13 +116,13 @@ export default {
     new webpack.EnvironmentPlugin({
       api_pages_url: apiPagesUrl,
       is_browser: true,
-      debug: debug,
+      NODE_ENV: 'production',
     }),
   ],
   resolve: {
     modules: [
       basePathClient,
-      path.join(basePath, 'node_modules'),
+      'node_modules',
     ],
     extensions: [
       '.js',

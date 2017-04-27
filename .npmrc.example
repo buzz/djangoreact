@@ -1,10 +1,36 @@
-# copy file to .npmrc and override defaults from package.json
-# djangoreact:wagtail-port = 8000
-# djangoreact:render-port = 8001
-# djangoreact:webpack-port = 8002
-# djangoreact:api-base-path = "myapi/"
-# djangoreact:api-pages-path = "pages"
-# djangoreact:admin-base-path = "cms-admin/"
-# djangoreact:virtualenv-dir = "/foo/bar/virtualenv/"
-# djangoreact:static-root = "/srv/www/public"
-# djangoreact:media-root = "server/media"
+## copy this file to .npmrc to override defaults from package.json
+
+## wagtail
+
+## Generating a properly secure SECRET_KEY in Django:
+##  https://gist.github.com/ndarville/3452907
+# reactail:secret-key = ""
+
+## According to https://github.com/joke2k/django-environ
+# reactail:database-url = "psql://dbuser:PWD@127.0.0.1:5432/database"
+
+## Django ALLOWED_HOSTS
+# reactail:allowed-hosts = "127.0.0.1,localhost"
+
+## API URL path fragments
+# reactail:api-base-path = "api/v2-reactail/"
+# reactail:api-pages-path = "pages"
+
+## Wagtail admin URL path
+# reactail:admin-base-path = "admin/"
+
+## Django STATIC_ROOT directory
+# reactail:static-root = "server/static-collected"
+
+## Django MEDIA_ROOT directory
+# reactail:media-root = "server/media"
+
+## Python Virtualenv
+# reactail:virtualenv-dir = "server/.virtualenv/"
+
+## dev options
+
+# reactail:wagtail-port = 8000
+# reactail:render-port = 8001
+# reactail:webpack-port = 8002
+# reactail:webpack-stats-file = ".webpack-stats.json"

@@ -23,6 +23,9 @@ def get_markup(path):
     except requests.ConnectionError:
         raise ReactRenderError(
             'Warning: Could not connect to render server at {}'.format(url))
+    except requests.ReadTimeout:
+        raise ReactRenderError(
+            'Warning: Read timeout when requesting server at {}'.format(url))
     if res.status_code != 200:
         raise ReactRenderError(
             'Unexpected response from render server at {}'.format(url))
