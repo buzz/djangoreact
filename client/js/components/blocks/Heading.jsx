@@ -1,8 +1,12 @@
 import React from 'react'
-import BaseBlock from 'js/components/blocks/BaseBlock'
+import PropTypes from 'prop-types'
 
-export default class Heading extends BaseBlock {
+export default class Heading extends React.Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+  }
+
   render() {
-    return <h2>{this.props.value}</h2>
+    return <h2>{this.props.text}</h2>
   }
 }

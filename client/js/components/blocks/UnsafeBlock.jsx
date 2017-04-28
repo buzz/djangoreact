@@ -1,9 +1,13 @@
 import React from 'react'
-import BaseBlock from 'js/components/blocks/BaseBlock'
+import PropTypes from 'prop-types'
 
-export default class UnsafeBlock extends BaseBlock {
+export default class UnsafeBlock extends React.Component {
+  static propTypes = {
+    markup: PropTypes.string.isRequired,
+  }
+
   render() {
-    const markup = { __html: this.props.value }
+    const markup = { __html: this.props.markup }
     return (
       <div dangerouslySetInnerHTML={markup}></div>
     )

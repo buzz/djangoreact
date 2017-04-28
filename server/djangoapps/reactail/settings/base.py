@@ -10,9 +10,11 @@ ENV = environ.Env(
     npm_package_config_allowed_hosts=(list)
 )
 
+
 def die(msg):
     print(msg)
     sys.exit(-1)
+
 
 # setup common directories
 PATH = environ.Path(__file__)
@@ -20,8 +22,11 @@ BASE_DIR = PATH - 2
 SERVER_DIR = PATH - 4
 PROJECT_DIR = PATH - 5
 
+
 # interpret config paths relative to PROJECT_DIR
-MAKE_ABS = lambda path: os.path.isabs(path) and path or PROJECT_DIR(path)
+def MAKE_ABS(path):
+    return os.path.isabs(path) and path or PROJECT_DIR(path)
+
 
 # parse env config from package.json
 DEBUG = ENV('NODE_ENV') == 'development'
@@ -138,6 +143,10 @@ MEDIA_URL = '/media/'
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = 'wagtailreact'
+
+WAGTAIL_RENDITIONS = {
+    'default': 'fill-1110x450|jpegquality-85',
+}
 
 # react renderer
 

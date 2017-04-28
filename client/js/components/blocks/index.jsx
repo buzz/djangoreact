@@ -1,9 +1,22 @@
-import BaseBlock from 'js/components/blocks/BaseBlock'
-import blockTypes from 'js/components/blocks/blockTypes'
+import React from 'react'
 
-export default function getBlockByType(type) {
-  if (blockTypes.hasOwnProperty(type)) {
-    return blockTypes[type]
+import UnknownBlock from 'js/components/blocks/UnknownBlock'
+import UnsafeBlock from 'js/components/blocks/UnsafeBlock'
+import Heading from 'js/components/blocks/Heading'
+import Image from 'js/components/blocks/Image'
+
+const Block = props => {
+  const value = props.block.value
+  switch (props.block.type) {
+  case 'heading':
+    return <Heading text={value} />
+  case 'richtext':
+    return <UnsafeBlock markup={value} />
+  case 'image':
+    return <Image alt={value.title} src={value.url} />
+  default:
+    return <UnknownBlock type={props.block.type} value={value} />
   }
-  return BaseBlock
 }
+
+export default Block

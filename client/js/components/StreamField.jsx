@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getBlockByType from 'js/components/blocks'
+import Block from 'js/components/blocks'
 
 export default class StreamField extends React.Component {
   static propTypes = {
@@ -9,12 +9,9 @@ export default class StreamField extends React.Component {
   }
 
   render() {
-    const blocks = this.props.blocks.map((block, index) => {
-      const Block = getBlockByType(block.type)
-      return (
-        <Block key={index} type={block.type} value={block.value} />
-      )
-    })
+    const blocks = this.props.blocks.map(
+      (block, index) => <Block block={block} key={index} />
+    )
     return (
       <div className="stream-field">
         {blocks}

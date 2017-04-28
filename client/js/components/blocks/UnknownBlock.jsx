@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class BaseBlock extends React.Component {
+export default class UnknownBlock extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     value: PropTypes.any.isRequired,
