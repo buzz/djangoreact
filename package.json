@@ -21,18 +21,19 @@
   "scripts": {
     "clean": "rm -rf $npm_package_config_static_root",
     "dev": "concurrently --prefix '[{name}]' --names 'WEBPACK,RENDER,WAGTAIL' -c 'red,yellow,blue' --kill-others 'npm run dev:webpack' 'npm run dev:render-server' 'npm run dev:wagtail'; npm run dev:kill",
-    "dev:wagtail": "NODE_ENV=development source $npm_package_config_virtualenv_dir/bin/activate && PYTHONUNBUFFERED=true python server/manage.py runserver localhost:$npm_package_config_wagtail_port",
-    "dev:webpack": "NODE_ENV=development webpack-dev-server --config webpack/dev.config.babel.js --port $npm_package_config_webpack_port --quiet",
+    "dev:wagtail": "NODE_ENV=development source ${npm_package_config_virtualenv_dir}bin/activate && PYTHONUNBUFFERED=true python server/manage.py runserver localhost:$npm_package_config_wagtail_port",
+    "dev:webpack": "NODE_ENV=development webpack-dev-server --config webpack.config.babel.js --port $npm_package_config_webpack_port --quiet",
     "dev:render-server": "NODE_ENV=development NODE_PATH=client api_pages_url=\"http://127.0.0.1:${npm_package_config_wagtail_port}/${npm_package_config_api_base_path}${npm_package_config_api_pages_path}/\" nodemon --no-stdin --exec 'babel-node --plugins transform-react-jsx' -e js,jsx -w ./server/js/ -w ./client/ server/js/main.js --port $npm_package_config_render_port",
     "dev:kill": "ps -ef|grep -e '\\(concurrently|webpack-dev-server\\)'|cut -d' ' -f6|xargs -L1 kill -9 2>/dev/null;true",
-    "wagtail:manage": "NODE_ENV=development source $npm_package_config_virtualenv_dir/bin/activate && python server/manage.py",
+    "wagtail:manage": "NODE_ENV=development source ${npm_package_config_virtualenv_dir}bin/activate && python server/manage.py",
+    "wagtail:init": "npm run wagtail:init:create-virtualenv && npm run wagtail:manage migrate && npm run wagtail:manage createsuperuser",
+    "wagtail:init:create-virtualenv": "virtualenv --python=python3.6 $npm_package_config_virtualenv_dir && source $npm_package_config_virtualenv_dir/bin/activate && pip install -r server/requirements.txt",
     "build": "npm run clean && npm run build:webpack && npm run build:wagtail",
-    "build:webpack": "webpack -p --config webpack/prod.config.babel.js",
-    "build:webpack:stats": "webpack -p --config webpack/prod.config.babel.js --json > stats.json",
-    "build:wagtail": "source $npm_package_config_virtualenv_dir/bin/activate && python server/manage.py collectstatic --no-input",
-    "test": "NODE_PATH=client babel-node --plugins transform-react-jsx -- server/js/test.js",
-    "eslint": "eslint --ext jsx client",
-    "create-virtualenv": "virtualenv --python=python3.6 $npm_package_config_virtualenv_dir && source $npm_package_config_virtualenv_dir/bin/activate && pip install -r server/requirements.txt"
+    "build:webpack": "NODE_ENV=production webpack -p --config webpack.config.babel.js",
+    "build:webpack:stats": "NODE_ENV=production webpack -p --config webpack.config.babel.js --json > stats.json",
+    "build:wagtail": "NODE_ENV=production source ${npm_package_config_virtualenv_dir}bin/activate && python server/manage.py collectstatic --no-input",
+    "test": "NODE_ENV=test NODE_PATH=client babel-node --plugins transform-react-jsx -- server/js/test.js",
+    "eslint": "eslint --ext jsx client"
   },
   "repository": {
     "type": "git",

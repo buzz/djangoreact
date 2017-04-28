@@ -9,12 +9,12 @@ export const basePathClient = path.join(basePath, 'client')
 // TODO: add purifycss/other optim webpack plugins?
 
 // pass down configuration
-const apiBasePath = process.env.npm_package_config_api_base_path
-const apiPagesPath = process.env.npm_package_config_api_pages_path
-const apiPagesUrl = `/${apiBasePath}${apiPagesPath}/`
-const statsFile = process.env.npm_package_config_webpack_stats_file
+const API_BASE_PATH = process.env.npm_package_config_api_base_path
+const API_PAGES_PATH = process.env.npm_package_config_api_pages_path
+const API_PAGES_URL = `/${API_BASE_PATH}${API_PAGES_PATH}/`
+const STATS_FILE = process.env.npm_package_config_webpack_stats_file
 
-export default {
+const baseConfig = {
   entry: {
     bundle: [
       // bootstrap 4
@@ -26,6 +26,9 @@ export default {
       'sass/index',
       'js/index',
     ],
+  },
+  output: {
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -101,7 +104,7 @@ export default {
     new webpack.NoEmitOnErrorsPlugin(),
     // for django-webpack-loader
     new BundleTracker({
-      filename: statsFile,
+      filename: STATS_FILE,
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     // BS4 needs this
@@ -114,7 +117,7 @@ export default {
     }),
     // inject configuration: replace process.env.* strings
     new webpack.EnvironmentPlugin({
-      api_pages_url: apiPagesUrl,
+      api_pages_url: API_PAGES_URL,
       is_browser: true,
       NODE_ENV: 'production',
     }),
@@ -135,3 +138,42 @@ export default {
     ],
   },
 }
+
+// production/development specific
+const getConfig = (NODE_ENV) => {
+  console.log('NODE_ENV', NODE_ENV)
+  if (NODE_ENV === 'production') {
+    // production
+    const staticRoot = process.env.npm_package_config_static_root
+    const outPutPath = path.join(basePath, staticRoot)
+
+    return {
+      ...baseConfig,
+      output: {
+        ...baseConfig.output,
+        path: outPutPath,
+      },
+    }
+  } else {
+    // development
+    const webpackPort = process.env.npm_package_config_webpack_port
+    const publicPath = `http://localhost:${webpackPort}/webpack-bundle/`
+
+    return {
+      ...baseConfig,
+      output: {
+        ...baseConfig.output,
+        publicPath: publicPath,
+      },
+      devtool: 'inline-source-map',
+      devServer: {
+        contentBase: basePathClient,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    }
+  }
+}
+
+export default getConfig(process.env.NODE_ENV)

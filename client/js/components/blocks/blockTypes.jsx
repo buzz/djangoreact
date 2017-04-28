@@ -2,6 +2,7 @@ import UnsafeBlock from 'js/components/blocks/UnsafeBlock'
 import Heading from 'js/components/blocks/Heading'
 import Image from 'js/components/blocks/Image'
 
+// maps block types to components
 const blockTypes = {
   heading: Heading,
   richtext: UnsafeBlock,
