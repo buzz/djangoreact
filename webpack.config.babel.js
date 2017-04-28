@@ -3,16 +3,18 @@ import webpack from 'webpack'
 import BundleTracker from 'webpack-bundle-tracker'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
-export const basePath = path.resolve('.')
-export const basePathClient = path.join(basePath, 'client')
-
-// TODO: add purifycss/other optim webpack plugins?
+const BASE_PATH = path.resolve('.')
+const BASE_PATH_CLIENT = path.join(BASE_PATH, 'client')
 
 // pass down configuration
+const STATIC_ROOT = process.env.npm_package_config_static_root
+const OUTPUT_PATH = path.join(BASE_PATH, STATIC_ROOT)
 const API_BASE_PATH = process.env.npm_package_config_api_base_path
 const API_PAGES_PATH = process.env.npm_package_config_api_pages_path
 const API_PAGES_URL = `/${API_BASE_PATH}${API_PAGES_PATH}/`
 const STATS_FILE = process.env.npm_package_config_webpack_stats_file
+const WEBPACK_PORT = process.env.npm_package_config_webpack_port
+const PUBLIC_PATH = `http://localhost:${WEBPACK_PORT}/webpack-bundle/`
 
 const baseConfig = {
   entry: {
@@ -124,7 +126,7 @@ const baseConfig = {
   ],
   resolve: {
     modules: [
-      basePathClient,
+      BASE_PATH_CLIENT,
       'node_modules',
     ],
     extensions: [
@@ -141,33 +143,26 @@ const baseConfig = {
 
 // production/development specific
 const getConfig = (NODE_ENV) => {
-  console.log('NODE_ENV', NODE_ENV)
   if (NODE_ENV === 'production') {
     // production
-    const staticRoot = process.env.npm_package_config_static_root
-    const outPutPath = path.join(basePath, staticRoot)
-
     return {
       ...baseConfig,
       output: {
         ...baseConfig.output,
-        path: outPutPath,
+        path: OUTPUT_PATH,
       },
     }
   } else {
     // development
-    const webpackPort = process.env.npm_package_config_webpack_port
-    const publicPath = `http://localhost:${webpackPort}/webpack-bundle/`
-
     return {
       ...baseConfig,
       output: {
         ...baseConfig.output,
-        publicPath: publicPath,
+        publicPath: PUBLIC_PATH,
       },
       devtool: 'inline-source-map',
       devServer: {
-        contentBase: basePathClient,
+        contentBase: OUTPUT_PATH,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },

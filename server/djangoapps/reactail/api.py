@@ -21,5 +21,6 @@ class ReactPagesAPIEndpoint(PagesAPIEndpoint):
     ]
     detail_only_fields = []
 
+
 api_router = WagtailAPIRouter('wagtailapi')
 api_router.register_endpoint(settings.API_PAGES_PATH, ReactPagesAPIEndpoint)

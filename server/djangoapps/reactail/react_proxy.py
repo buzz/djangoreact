@@ -41,12 +41,13 @@ def get_markup(path):
 
         if err:
             if 'message' in err and 'stack' in err:
-                raise ReactRenderError(
-                    'Message: %s\n\nStack trace: %s' % (err['message'], err['stack']))
+                raise ReactRenderError('Message: %s\n\nStack trace: %s'.format(
+                    err['message'], err['stack']))
             raise ReactRenderError(err)
 
         if markup is None:
             raise ReactRenderError(
-                'Render server failed to return markup. Returned: {}'.format(obj))
+                'Render server failed to return markup. Returned: {}'.format(
+                    obj))
 
     return markup, state
