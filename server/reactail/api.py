@@ -2,8 +2,8 @@ from django.conf import settings
 from wagtail.api.v2.endpoints import PagesAPIEndpoint
 from wagtail.api.v2.router import WagtailAPIRouter
 
-from djangoapps.reactail.serializers import ReactPageSerializer
-from djangoapps.pages.models import HomePage
+from reactail.serializers import ReactPageSerializer
+from reactail.models import HomePage
 
 
 class ReactPagesAPIEndpoint(PagesAPIEndpoint):

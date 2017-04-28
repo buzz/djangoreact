@@ -7,6 +7,6 @@ export default class Heading extends React.Component {
   }
 
   render() {
-    return <h2>{this.props.text}</h2>
+    return <h2 className="block-heading">{this.props.text}</h2>
   }
 }

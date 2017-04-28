@@ -20,7 +20,7 @@ const response = ({markup = '', state = {}, error = null}) => ({
 // create store and get app markup/state
 function fetchAppSnapshot(pathname) {
   return new Promise((resolve, reject) => {
-    // saga that waits for app to start up and takes snapshot
+    // waits for app to start and extracts markup/state
     function* fetchAppSnapshotSaga() {
       yield put(appStartRequested(pathname))
       const { error } = yield race({

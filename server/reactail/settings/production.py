@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import os
 
-from djangoapps.reactail.settings.base import *
+from reactail.settings.base import *
 
 
 if DEBUG:

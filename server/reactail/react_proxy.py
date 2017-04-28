@@ -1,7 +1,7 @@
 import requests
 from django.conf import settings
 
-from .exceptions import ReactRenderError
+from reactail.exceptions import ReactRenderError
 
 
 def get_markup(path):

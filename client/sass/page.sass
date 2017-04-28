@@ -1,38 +1,54 @@
 .page-content
 
-    // rich text
-    @extend .py-5
+  // rich text
+  @extend .py-5
 
-    .rich-text img
-        @extend .img-fluid
+  h1
+    @extend .mb-4
 
-    .richtext-image
-        @extend .mb-3, .img-fluid
+  h2
+    @extend .mb-3
 
-        &.left
-            @extend .float-left, .mr-5
+  h3
+    @extend .mb-2
 
-        &.right
-            @extend .float-right, .ml-5
+  h4
+    @extend .mb-1
 
-    // page fade animation
-    $fade-duration: $duration
-    > div
-        position: relative
+  .img-fluid
+    @extend .mb-4
 
-        .page-fade-leave
-            position: absolute
-            top: 0
-            left: 0
-            opacity: 1
+  .rich-text img
+    @extend .img-fluid
 
-            &.page-fade-leave-active
-                opacity: 0.01
-                transition: opacity $fade-duration
+  .richtext-image
+    @extend .mb-3, .img-fluid
 
-        .page-fade-enter
-            opacity: 0.01
+    &.left
+      @extend .float-left, .mr-5
 
-            &.page-fade-enter-active
-                opacity: 1.0
-                transition: opacity $fade-duration
+    &.right
+      @extend .float-right, .ml-5
+
+  // page fade animation
+  $fade-duration: $duration
+
+  > div
+    position: relative
+
+    .page-fade-leave
+      position: absolute
+      top: 0
+      left: 0
+      opacity: 1
+
+      &.page-fade-leave-active
+        opacity: 0.01
+        transition: opacity $fade-duration
+
+    .page-fade-enter
+      opacity: 0.01
+
+      &.page-fade-enter-active
+        opacity: 1
+        transition: opacity $fade-duration

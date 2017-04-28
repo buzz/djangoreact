@@ -5,7 +5,7 @@ from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
 
-from djangoapps.pages.blocks import ReactImageChooserBlock
+from reactail.blocks import ReactImageChooserBlock
 
 
 class HomePage(Page):

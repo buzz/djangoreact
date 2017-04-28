@@ -19,8 +19,8 @@ def die(msg):
 # setup common directories
 PATH = environ.Path(__file__)
 BASE_DIR = PATH - 2
-SERVER_DIR = PATH - 4
-PROJECT_DIR = PATH - 5
+SERVER_DIR = PATH - 3
+PROJECT_DIR = PATH - 4
 
 
 # interpret config paths relative to PROJECT_DIR
@@ -55,8 +55,6 @@ ALLOWED_HOSTS = ENV('npm_package_config_allowed_hosts')
 WEBPACK_STATS_FILE = MAKE_ABS(ENV('npm_package_config_webpack_stats_file'))
 
 INSTALLED_APPS = [
-    'djangoapps.pages',
-
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
     'wagtail.wagtailembeds',
@@ -80,6 +78,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
+    'reactail',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +95,7 @@ MIDDLEWARE = [
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
 
-ROOT_URLCONF = 'djangoapps.reactail.urls'
+ROOT_URLCONF = 'reactail.urls'
 
 TEMPLATES = [
     {
@@ -116,7 +115,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangoapps.reactail.wsgi.application'
+WSGI_APPLICATION = 'reactail.wsgi.application'
 
 DATABASES = {
     'default': ENV.db('npm_package_config_database_url'),

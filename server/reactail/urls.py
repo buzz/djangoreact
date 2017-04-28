@@ -7,8 +7,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore.urls import serve_pattern as wagtail_serve_pattern
 
-from .api import api_router
-from .views import ReactView
+from reactail.api import api_router
+from reactail.views import ReactView
 
 
 admin_serve_pattern = r'^%s' % settings.ADMIN_BASE_PATH

@@ -2,8 +2,8 @@ import json
 from django.http import Http404
 from django.views.generic import TemplateView
 
-from .exceptions import ReactRenderError
-from .react_proxy import get_markup
+from reactail.exceptions import ReactRenderError
+from reactail.react_proxy import get_markup
 
 
 class ReactView(TemplateView):
