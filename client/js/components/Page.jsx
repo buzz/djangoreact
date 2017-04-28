@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
+import StreamField from 'js/components/StreamField'
+
 export default class Page extends React.Component {
   static propTypes = {
     page: PropTypes.object.isRequired,
@@ -18,10 +20,8 @@ export default class Page extends React.Component {
       }
       id = parseInt(Math.random() * 1000000)
       title = ''
-      body = ''
+      body = []
     }
-
-    const createMarkup = () => ({ __html: body })
 
     inner = (
       <div>
@@ -32,7 +32,7 @@ export default class Page extends React.Component {
         </div>
         <div className="row">
           <div className="col">
-            <div dangerouslySetInnerHTML={createMarkup()} />
+            <StreamField blocks={body} />
           </div>
         </div>
       </div>

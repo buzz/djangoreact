@@ -46,6 +46,5 @@ class PageRichTextField(Field):
 
 class ReactPageSerializer(PageSerializer):
     """Serializes a Page."""
-    body = PageRichTextField(read_only=True)
     parent = PageParentIdField(read_only=True)
     url_path = PagePathField(read_only=True)
