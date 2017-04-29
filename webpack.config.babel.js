@@ -14,6 +14,7 @@ const API_PAGES_PATH = process.env.npm_package_config_api_pages_path
 const API_PAGES_URL = `/${API_BASE_PATH}${API_PAGES_PATH}/`
 const STATS_FILE = process.env.npm_package_config_webpack_stats_file
 const WEBPACK_PORT = process.env.npm_package_config_webpack_port
+const WAGTAIL_PORT = process.env.npm_package_config_wagtail_port
 const PUBLIC_PATH = `http://localhost:${WEBPACK_PORT}/webpack-bundle/`
 
 const baseConfig = {
@@ -165,6 +166,9 @@ const getConfig = (NODE_ENV) => {
         contentBase: OUTPUT_PATH,
         headers: {
           'Access-Control-Allow-Origin': '*',
+        },
+        proxy: {
+          '/static/': `http://127.0.0.1:${WAGTAIL_PORT}/`,
         },
       },
     }

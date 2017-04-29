@@ -5,14 +5,14 @@ from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
 
-from reactail.blocks import ReactImageChooserBlock
+from reactail.blocks import ImageBlock, HeadingBlock
 
 
 class HomePage(Page):
     body = StreamField([
-        ('heading', blocks.CharBlock()),
+        ('heading', HeadingBlock()),
         ('richtext', blocks.RichTextBlock()),
-        ('image', ReactImageChooserBlock()),
+        ('image', ImageBlock()),
     ])
 
     content_panels = Page.content_panels + [

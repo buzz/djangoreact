@@ -1,23 +1,5 @@
 body
-    overflow-y: scroll
-
-$dropdown-opacity: 0.98
-.dropdown
-    .dropdown-menu
-        margin-top: 0
-        animation-name: dropdown-fade
-        animation-duration: $duration
-        animation-timing-function: $timing-function
-        opacity: $dropdown-opacity
-
-        &:hover
-            display: block
-
-    &:hover .dropdown-menu
-        display: block
-
-    @keyframes dropdown-fade
-        from
-            opacity: 0
-        to
-            opacity: $dropdown-opacity
+  overflow-y: scroll
+  background: url(/static/images/background.jpg)
+  background-attachment: fixed
+  background-size: cover

@@ -136,16 +136,29 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATIC_URL = '/assets/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = 'wagtailreact'
 
-WAGTAIL_RENDITIONS = {
-    'default': 'fill-1110x450|jpegquality-85',
+WAGTAIL_IMAGE_RENDITION_MASK = 'fill-%s|jpegquality-85'
+WAGTAIL_IMAGE_WIDE = '1110x450'
+WAGTAIL_IMAGE_FLOAT = '400x450'
+WAGTAIL_IMAGE_REGULAR = '800x500'
+WAGTAIL_IMAGE_PRESETS = {
+    'center': ('center', WAGTAIL_IMAGE_RENDITION_MASK % WAGTAIL_IMAGE_REGULAR),
+    'wide': ('center', WAGTAIL_IMAGE_RENDITION_MASK % WAGTAIL_IMAGE_WIDE),
+    'left': ('left', WAGTAIL_IMAGE_RENDITION_MASK % WAGTAIL_IMAGE_FLOAT),
+    'right': ('right', WAGTAIL_IMAGE_RENDITION_MASK % WAGTAIL_IMAGE_FLOAT),
 }
+WAGTAIL_IMAGE_CHOICES = (
+    ('center', 'Center image'),
+    ('wide', 'Wide image'),
+    ('left', 'Left-floating image'),
+    ('right', 'Right-floating image'),
+)
 
 # react renderer
 

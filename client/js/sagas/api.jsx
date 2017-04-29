@@ -13,13 +13,15 @@ const pageCache = {}
 
 export function pageApi(id) {
   return new Promise((resolve, reject) => {
-    if (pageCache[id]) {
+    if (process.env.NODE_ENV === 'production' && pageCache[id]) {
       resolve(pageCache[id])
     } else {
       return fetch(`${API_PAGES_URL}${id}/`)
         .then(response => response.json())
         .then(page => {
-          pageCache[id] = page
+          if (process.env.NODE_ENV === 'production') {
+            pageCache[id] = page
+          }
           resolve(page)
         })
         .catch(reject)

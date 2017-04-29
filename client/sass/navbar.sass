@@ -1,4 +1,5 @@
 .navbar
+  text-shadow: 0 1px 0 black
 
   .navbar-brand
     color: darken($gray-lightest, 15%)
@@ -7,5 +8,33 @@
       color: $gray-lightest
 
   .nav-link, .navbar-brand, .navbar-brand .react, .dropdown-item
-    transition-property: color, background-color
+    transition-property: color, background-color, text-shadow
     transition-duration: $duration
+
+  .dropdown
+    $dropdown-opacity: 0.98
+
+    .dropdown-menu
+      text-shadow: 0 1px 0 white
+      margin-top: 0
+      animation-name: dropdown-fade
+      animation-duration: $duration
+      animation-timing-function: $timing-function
+      opacity: $dropdown-opacity
+
+      .dropdown-item
+        &.active, &:active
+          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)
+
+      &:hover
+        display: block
+
+    &:hover .dropdown-menu
+      display: block
+
+    @keyframes dropdown-fade
+      from
+        opacity: 0
+
+      to
+        opacity: $dropdown-opacity
