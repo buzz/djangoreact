@@ -8,10 +8,11 @@ export default class UnknownBlock extends React.Component {
   }
 
   render() {
+    const { type, value } = this.props
     return (
       <div>
-        <h2>Unknown block (<code>{this.props.type}</code>)</h2>
-        <pre>{this.props.value}</pre>
+        <h2>Unknown block (<code>{type}</code>)</h2>
+        <pre>{value}</pre>
       </div>
     )
   }

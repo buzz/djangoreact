@@ -26,7 +26,7 @@ export default function pageTreeReducer(state, action) {
       .map(makeChild)
     return {
       ...state,
-      rootPage,
+      ...rootPage,
       children,
     }
   }

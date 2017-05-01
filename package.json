@@ -21,7 +21,7 @@
   "scripts": {
     "clean": "rm -rf $npm_package_config_static_root",
     "dev": "concurrently --prefix '[{name}]' --names 'WEBPACK,RENDER,WAGTAIL' -c 'red,yellow,blue' --kill-others 'npm run dev:webpack' 'npm run dev:render-server' 'npm run dev:wagtail'; npm run dev:kill",
-    "dev:wagtail": "NODE_ENV=development source ${npm_package_config_virtualenv_dir}bin/activate && PYTHONUNBUFFERED=true python server/manage.py runserver localhost:$npm_package_config_wagtail_port",
+    "dev:wagtail": "NODE_ENV=development source ${npm_package_config_virtualenv_dir}bin/activate && PYTHONUNBUFFERED=true python server/manage.py runserver_plus localhost:$npm_package_config_wagtail_port",
     "dev:webpack": "NODE_ENV=development webpack-dev-server --config webpack.config.babel.js --port $npm_package_config_webpack_port --quiet",
     "dev:render-server": "NODE_ENV=development NODE_PATH=client api_pages_url=\"http://127.0.0.1:${npm_package_config_wagtail_port}/${npm_package_config_api_base_path}${npm_package_config_api_pages_path}/\" nodemon --no-stdin --exec 'babel-node --plugins transform-react-jsx' -e js,jsx -w ./server/js/ -w ./client/ server/js/main.js --port $npm_package_config_render_port",
     "dev:kill": "ps -ef|grep -e '\\(concurrently|webpack-dev-server\\)'|cut -d' ' -f6|xargs -L1 kill -9 2>/dev/null;true",

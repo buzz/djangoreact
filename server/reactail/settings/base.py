@@ -79,6 +79,8 @@ INSTALLED_APPS = [
 
     'webpack_loader',
     'reactail',
+
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,5 @@
 .page-content
-  text-shadow: 0 1px 0 white
+  text-shadow: 0 1px 0 $white
 
   // rich text
   @extend .py-5
@@ -15,6 +15,15 @@
 
   h4
     @extend .mb-1
+
+  .page-img
+    @extend .img-fluid, .mb-2, .mx-auto, .d-block
+
+  .published-at
+    @extend .badge, .badge-pill, .badge-default
+    @extend .float-right, .ml-2, .mb-2
+    font-size: $font-size-h6
+    text-shadow: 0 1px 0 fade-out($black, 0.5)
 
   .rich-text img
     @extend .img-fluid

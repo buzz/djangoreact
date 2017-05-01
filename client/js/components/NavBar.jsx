@@ -1,13 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 
-const PageLink = ({ className, isActive, ...rest }) => (
-  <Link
-    className={isActive ? [ 'active', className ].join(' ') : className}
-    {...rest}
-  />
-)
+import PageLink from 'js/components/PageLink'
 
 export default class NavBar extends React.Component {
   static propTypes = {
@@ -20,45 +14,56 @@ export default class NavBar extends React.Component {
     const path = this.props.path
     const isActive = page => path === page.meta.url_path
 
-    const topLevelNav = root.children.map(page => {
-      const dropdownItems = page.children.map(p => (
-        <PageLink className="dropdown-item"
-                  key={p.id}
-                  isActive={isActive(p)}
-                  to={p.meta.url_path}>
-          {p.title}
-        </PageLink>
-      ))
+    const homeLink = root.meta.show_in_menus ? (
+      <PageLink className="navbar-brand"
+                isActive={isActive(root)}
+                to={root.meta.url_path}
+                title={root.title}>
+        wagtail-react
+      </PageLink>
+    ) : false
 
-      if (dropdownItems.length === 0) {
-        // normal nav link
-        return (
-          <li key={page.id} className="nav-item">
-            <PageLink className="nav-link"
-                      isActive={isActive(page)}
-                      to={page.meta.url_path}>
-              {page.title}
-            </PageLink>
-          </li>
-        )
-      } else {
-        // dropdown menu
-        return (
-          <li key={page.id} className="nav-item dropdown">
-            <PageLink className="nav-link dropdown-toggle"
-                      to={page.meta.url_path}
-                      isActive={isActive(page)}
-                      aria-haspopup="true"
-                      aria-expanded="false">
-              {page.title}
-            </PageLink>
-            <div className="dropdown-menu">
-              {dropdownItems}
-            </div>
-          </li>
-        )
-      }
-    })
+    const topLevelNav = root.meta.show_in_menus ? (
+      root.children.filter(page => page.meta.show_in_menus).map(page => {
+        const dropdownItems = page.children.filter(page => page.meta.show_in_menus).map(p => (
+          <PageLink className="dropdown-item"
+                    key={p.id}
+                    isActive={isActive(p)}
+                    to={p.meta.url_path}>
+            {p.title}
+          </PageLink>
+        ))
+
+        if (dropdownItems.length === 0) {
+          // normal nav link
+          return (
+            <li key={page.id} className="nav-item">
+              <PageLink className="nav-link"
+                        isActive={isActive(page)}
+                        to={page.meta.url_path}>
+                {page.title}
+              </PageLink>
+            </li>
+          )
+        } else {
+          // dropdown menu
+          return (
+            <li key={page.id} className="nav-item dropdown">
+              <PageLink className="nav-link dropdown-toggle"
+                        to={page.meta.url_path}
+                        isActive={isActive(page)}
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                {page.title}
+              </PageLink>
+              <div className="dropdown-menu">
+                {dropdownItems}
+              </div>
+            </li>
+          )
+        }
+      })
+    ) : false
 
     return (
       <nav className="navbar sticky-top navbar-toggleable-sm
@@ -73,12 +78,7 @@ export default class NavBar extends React.Component {
                   aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <PageLink className="navbar-brand"
-                    isActive={isActive(root)}
-                    to={root.meta.url_path}
-                    title={root.title}>
-            wagtail-react
-          </PageLink>
+          {homeLink}
           <div className="collapse navbar-collapse" id="navbar-menu">
             <ul className="navbar-nav mr-auto">
               {topLevelNav}

@@ -1,5 +1,8 @@
 .navbar
-  text-shadow: 0 1px 0 black
+  $faded: fade-out($black, 0.5)
+  background-color: fade-out($gray-dark, 0.03) !important
+  text-shadow: 0 1px 0 $faded
+  box-shadow: 0 0 1rem $faded
 
   .navbar-brand
     color: darken($gray-lightest, 15%)
@@ -21,6 +24,7 @@
       animation-duration: $duration
       animation-timing-function: $timing-function
       opacity: $dropdown-opacity
+      box-shadow: 0 0.2rem 1rem fade-out($black, 0.9)
 
       .dropdown-item
         &.active, &:active

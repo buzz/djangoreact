@@ -1,25 +1,31 @@
 from django.conf import settings
 from wagtail.api.v2.endpoints import PagesAPIEndpoint
 from wagtail.api.v2.router import WagtailAPIRouter
+from wagtail.wagtailcore.models import Page
 
 from reactail.serializers import ReactPageSerializer
-from reactail.models import HomePage
 
 
 class ReactPagesAPIEndpoint(PagesAPIEndpoint):
     """Expose Pages as API endpoint."""
     base_serializer_class = ReactPageSerializer
-    model = HomePage
+    model = Page
     meta_fields = PagesAPIEndpoint.meta_fields + [
-        'url_path',
+        'excerpt',
+        'image',
+        'published_at',
         'show_in_menus',
+        'url_path',
     ]
     listing_default_fields = PagesAPIEndpoint.listing_default_fields + [
+        'excerpt',
+        'image',
         'parent',
-        'url_path',
+        'published_at',
         'show_in_menus',
+        'url_path',
     ]
-    detail_only_fields = []
+    detail_only_fields = []  # hide parent field
 
 
 api_router = WagtailAPIRouter('wagtailapi')

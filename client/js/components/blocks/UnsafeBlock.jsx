@@ -7,9 +7,10 @@ export default class UnsafeBlock extends React.Component {
   }
 
   render() {
-    const markup = { __html: this.props.markup }
+    const { markup, ...rest } = this.props
+    const html = { __html: markup }
     return (
-      <div dangerouslySetInnerHTML={markup}></div>
+      <div dangerouslySetInnerHTML={html} {...rest}></div>
     )
   }
 }

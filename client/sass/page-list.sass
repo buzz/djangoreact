@@ -1,0 +1,22 @@
+.page-list
+
+  a.page-stub
+    @extend .clearfix, .py-4
+    transition-property: color
+    transition-duration: $duration
+    display: block
+    color: $gray-dark
+    text-decoration: none
+    border-bottom: 1px solid $gray-light
+
+    &:hover
+      color: $font-color
+
+      h2
+        text-decoration: underline
+
+    h2
+      font-size: $font-size-h4
+
+    .page-img
+      @extend .img-fluid, .float-left, .mr-4, .mb-2

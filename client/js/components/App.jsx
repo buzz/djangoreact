@@ -14,12 +14,13 @@ class App extends React.Component {
   }
 
   render() {
+    const pageTree = this.props.pageTree
     const loc = this.props.routing.locationBeforeTransitions || this.props.location
     let path = loc ? loc.pathname : '/'
     return (
       <div id="main-wrapper">
-        <NavBar path={path} pageTree={this.props.pageTree}/>
-        <Page page={this.props.page}/>
+        <NavBar path={path} pageTree={pageTree}/>
+        <Page page={this.props.page} pageTree={pageTree}/>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 from django.conf import settings
 from wagtail.wagtailimages.blocks import ImageChooserBlock
-from wagtail.wagtailcore.blocks import CharBlock, ChoiceBlock, StructBlock
+from wagtail.wagtailcore.blocks import CharBlock, ChoiceBlock, StructBlock, \
+    StaticBlock
 
 
 class ImageBlock(StructBlock):
@@ -32,7 +33,7 @@ class ImageBlock(StructBlock):
 
 class HeadingBlock(StructBlock):
     """
-    `StructBlock` that allows the user to select h2 - h4 sizes for headers
+    `StructBlock` that allows the user to select h2 - h6 sizes for headers
     """
     text = CharBlock(required=True)
     size = ChoiceBlock(choices=[
@@ -46,3 +47,14 @@ class HeadingBlock(StructBlock):
 
     class Meta:
         icon = 'title'
+
+
+class LatestBlogPostsBlock(StaticBlock):
+    """
+    Displays a list of blog posts
+    """
+    class Meta:
+        icon = 'list-ul'
+        label = 'Latest posts'
+        admin_text = 'Shows latest blog posts.'
+        help_text = 'barbar help_texthelp_texthelp_text'
